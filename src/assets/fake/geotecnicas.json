@@ -1,0 +1,56 @@
+[
+    {
+        "code": "FALLA_TERRENO",
+        "name": "Fallas en terrenos con pendiente, escombros",
+        "options" : [
+            { 
+                "name" : "poca",
+                "selected": false 
+            },
+            { 
+                "name" : "moderada",
+                "selected": false 
+            },
+            { 
+                "name" : "severa",
+                "selected": false 
+            }
+        ]
+    },
+    {
+        "code": "MOVIMIENTO_SUELO",
+        "name": "Movimiento del suelo, fisuras",
+        "options" : [
+            { 
+                "name" : "poca",
+                "selected": false 
+            },
+            { 
+                "name" : "moderada",
+                "selected": false 
+            },
+            { 
+                "name" : "severa",
+                "selected": false 
+            }
+        ]        
+    },
+    {
+        "code": "OTRO",
+        "name": "Otro",
+        "options" : [
+            { 
+                "name" : "poca",
+                "selected": false 
+            },
+            { 
+                "name" : "moderada",
+                "selected": false 
+            },
+            { 
+                "name" : "severa",
+                "selected": false 
+            }
+        ]        
+    }                  
+]

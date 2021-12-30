@@ -1,0 +1,92 @@
+<ion-header class="ion-no-border">
+
+  <img src="assets/images/wave-login.png" alt="">
+  <ion-toolbar class="ion-text-center">
+    <ion-title class="ion-text-wrap spacing">
+      <p>ATC</p>
+      <p><small>Applied Technology Council</small></p>
+    </ion-title>
+  </ion-toolbar>
+
+  <ion-toolbar class="ion-text-center ion-padding">
+    <ion-title class="ion-text-wrap spacing">Crear una cuenta</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+  <ion-content fullscreen="true" class="ion-padding">
+  
+    <ion-grid fixed class="ion-padding">
+      <form [formGroup]="singupForm" (ngSubmit)="save()">
+        <ion-row>
+          <ion-col>
+    
+            <ion-list>
+    
+              <ion-item>
+                <ion-label position="floating">CI Inspector</ion-label>
+                <ion-input name="username" formControlName="username" type="text" required></ion-input>
+                <ion-icon name="person-circle" slot="start"></ion-icon>
+
+                <ng-container *ngFor="let validation of validator.validationMessages.username">
+                  <ion-text color="danger" *ngIf="singupForm.get('username').hasError(validation.type) && (singupForm.get('username').dirty || singupForm.get('username').touched)">
+                    {{ validation.message }}
+                  </ion-text>
+                </ng-container> 
+
+              </ion-item>
+    
+              <ion-item>
+                <ion-label position="floating">Nombres</ion-label>
+                <ion-input name="nombres" formControlName="nombres" type="text" required></ion-input>
+                <ion-icon name="happy" slot="start"></ion-icon>
+
+                <ng-container *ngFor="let validation of validator.validationMessages.nombres">
+                  <ion-text color="danger" *ngIf="singupForm.get('nombres').hasError(validation.type) && (singupForm.get('nombres').dirty || singupForm.get('nombres').touched)">
+                    {{ validation.message }}
+                  </ion-text>
+                </ng-container>                 
+              </ion-item>
+    
+              <ion-item>
+                <ion-label position="floating">Contraseña</ion-label>
+                <ion-input name="password" formControlName="password" type="password" required></ion-input>
+                <ion-icon name="bag" slot="start"></ion-icon>
+
+                <ng-container *ngFor="let validation of validator.validationMessages.password">
+                  <ion-text color="danger" *ngIf="singupForm.get('password').hasError(validation.type) && (singupForm.get('password').dirty || singupForm.get('password').touched)">
+                    {{ validation.message }}
+                  </ion-text>
+                </ng-container>                
+              </ion-item>
+    
+            </ion-list>
+          </ion-col>
+        </ion-row>
+    
+        <ion-row>
+          <ion-col>
+            <ion-button 
+            expand="full" 
+            type="submit"
+            [disabled]="singupForm.invalid || loading" 
+            size="large">
+            <ng-container *ngIf="loading; else ok">
+              Por favor espere...<ion-spinner name="bubbles"></ion-spinner>
+            </ng-container>
+            <ng-template #ok>
+              Crear
+            </ng-template>
+          </ion-button>
+          </ion-col>
+        </ion-row>
+      </form>
+    </ion-grid>
+  
+  </ion-content>
+
+<ion-footer class="ion-no-border">
+  <ion-toolbar class="ion-text-center">
+    <ion-title size="small">Ya tienes cuenta? <ion-router-link [routerLink]="'/login'" href="#" class="underline">Iniciar Sesi&oacute;n</ion-router-link></ion-title>
+  </ion-toolbar>
+</ion-footer>

@@ -1,0 +1,14 @@
+[
+    {
+        "code": "PANCARTA_VERDE",
+        "name": "Inspeccionada ( Pancarta Verde )"
+    },
+    {
+        "code": "PANCARTA_AMARILLA",
+        "name": "Uso restringido ( Pancarta Amarilla )"
+    },
+    {
+        "code": "PANCARTA_ROJA",
+        "name": "Inseguro ( Pancarta roja )"
+    }           
+]

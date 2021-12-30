@@ -1,0 +1,12 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="dark">
+    <ion-buttons slot="secondary">
+      <ion-button (click)="logout()">
+        <ion-icon slot="icon-only" name="exit"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title size="small" *ngIf="user">
+      Inspector: {{ user.nombres }}
+    </ion-title>
+  </ion-toolbar>
+</ion-header>

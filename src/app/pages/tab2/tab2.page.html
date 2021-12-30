@@ -1,0 +1,564 @@
+<app-header></app-header>
+<ion-content [fullscreen]="true">
+  <form [formGroup]="docForm" (ngSubmit)="save()">
+    <ion-accordion-group>
+
+      <!-- DESCRIPCION DE LA EDIFICACION -->
+      <ion-accordion value="1" toggle-icon="arrow-down-circle">
+
+        <ion-item slot="header">
+          <ion-icon name="business" slot="start" color="primary"></ion-icon>
+          <ion-label>Descripci&oacute;n de la edificaci&oacute;n *</ion-label>
+        </ion-item>
+
+        <ion-list slot="content" class="ion-padding-start ion-padding-end">
+
+          <ion-row>
+            <ion-col size="12">
+              <ion-item>
+                <ion-label position="stacked">Nombre de edificaci&oacute;n *</ion-label>
+                <ion-input type="text" inputmode="text" formControlName="nombre_edificacion"></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col size="12">
+              <ion-item>
+                <ion-label position="stacked">Direcci&oacute;n</ion-label>
+                <ion-input type="text" inputmode="text" formControlName="direccion_edificacion"></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col size="12">
+              <ion-item>
+                <ion-label position="stacked">Coordenadas</ion-label>
+                <ion-text color="primary">
+                  <h6 *ngIf="COORDENADAS">Lat: {{ COORDENADAS.latitude }} Lon:{{ COORDENADAS.longitude }} </h6>
+                </ion-text>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col size="12">
+              <ion-item>
+                <ion-label position="stacked">N&uacute;mero contacto</ion-label>
+                <ion-input type="tel" formControlName="numero_contacto"></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col size="8">
+              <ion-item>
+                <ion-label position="stacked"># pisos sobre el suelo</ion-label>
+                <ion-input type="tel" formControlName="pisos_sobre_suelo"></ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col size="4">
+              <ion-item>
+                <ion-label position="stacked">Subsuelos</ion-label>
+                <ion-input type="tel" formControlName="pisos_sobre_suelo"></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col size="12">
+              <ion-item>
+                <ion-label position="stacked">&Aacute;rea en planta(m^2 o ft^2)</ion-label>
+                <ion-input type="text" inputmode="text" formControlName="area_en_planta"></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col size="12">
+              <ion-item>
+                <ion-label position="stacked">N&uacute;mero de residencias habitadas</ion-label>
+                <ion-input type="tel" formControlName="residencia_habitada"></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col size="12">
+              <ion-item>
+                <ion-label position="stacked">N&uacute;mero de residencias no habitadas</ion-label>
+                <ion-input type="tel" formControlName="residencia_no_habitada"></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-title><small>Tipo de Construcci&oacute;n</small></ion-title>
+            <ion-col size="12">
+              <ng-container *ngIf="tipoConstruccionArr">
+                <ng-container formArrayName="tipo_construccion">
+                  <ion-radio-group [value]="dateSelected.selected_construccion">
+                    <ng-container [formGroupName]="i" *ngFor="let item of tipoConstruccionArr.controls; index as i">
+                      <ion-item>
+                        <small>{{ item.get('name').value }}</small>
+                        <ion-radio slot="end" (ionFocus)="activeCheckTipoConstruccion( $event,i )"
+                          [value]="item.get('code').value"></ion-radio>
+                      </ion-item>
+                    </ng-container>
+                  </ion-radio-group>
+                </ng-container>
+              </ng-container>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-title><small>Tipo de Educaci&oacute;n</small></ion-title>
+            <ion-col size="12">
+              <ng-container *ngIf="tipoEducacionArr">
+                <ng-container formArrayName="tipo_educacion">
+                  <ion-radio-group [value]="dateSelected.selected_educacion">
+                    <ng-container [formGroupName]="i" *ngFor="let item of tipoEducacionArr.controls; index as i">
+                      <ion-item>
+                        <small>{{ item.get('name').value }}</small>
+                        <ion-radio slot="end" (ionFocus)="activeCheckTipoEducacion( $event,i )"
+                          [value]="item.get('code').value"></ion-radio>
+                      </ion-item>
+                    </ng-container>
+                  </ion-radio-group>
+                </ng-container>
+              </ng-container>
+            </ion-col>
+          </ion-row>
+
+        </ion-list>
+
+      </ion-accordion>
+
+      <!-- AMENAZAS GENERALES -->
+      <ion-accordion value="2" toggle-icon="arrow-down-circle">
+        <ion-item slot="header">
+          <ion-icon name="hand-right" slot="start" color="danger"></ion-icon>
+          <ion-label>Amenazas generales</ion-label>
+        </ion-item>
+
+        <ion-list slot="content">
+
+          <ion-row>
+            <ion-col size="12">
+              <ion-row>
+                <ion-col size="6"></ion-col>
+                <ion-col size="6" class="ion-text-end">
+                  <ng-container *ngFor="let item of ['Poca', 'Moderada', 'Severa']">
+                    <small> {{ item }} </small>
+                  </ng-container>
+                </ion-col>
+              </ion-row>
+
+              <ng-container *ngIf="tipoAmenazaGeneralArr">
+                <ng-container formArrayName="tipo_amenaza_general">
+                  <ng-container [formGroupName]="i" *ngFor="let item of tipoAmenazaGeneralArr.controls; index as i">
+                    <ion-radio-group [value]="getSelectedAmenazaGeneral( item )">
+                      <ion-item>
+                        <ng-container *ngFor="let options of item.get('options').value; index as x">
+                          <ion-radio slot="end" (ionFocus)="activeCheckTipoAmenazasGenerales( $event,i, x )"
+                            [value]="options.name"></ion-radio>
+                        </ng-container>
+                        <small>{{ item.get('name').value }}</small>
+                      </ion-item>
+                    </ion-radio-group>
+                  </ng-container>
+                </ng-container>
+              </ng-container>
+
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col size="12">
+              <ion-item>
+                <ion-label position="stacked">Observaci&oacute;n</ion-label>
+                <ion-textarea formControlName="observation_amenaza_gen"></ion-textarea>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+        </ion-list>
+      </ion-accordion>
+
+      <!-- AMENAZAS ESTRUCTURALES -->
+      <ion-accordion value="3" toggle-icon="arrow-down-circle">
+        <ion-item slot="header">
+          <ion-icon name="home" slot="start" color="warning"></ion-icon>
+          <ion-label>Amenazas estructurales</ion-label>
+        </ion-item>
+
+        <ion-list slot="content">
+          <ion-row>
+            <ion-col size="12">
+              <ion-row>
+                <ion-col size="6"></ion-col>
+                <ion-col size="6" class="ion-text-end">
+                  <ng-container *ngFor="let item of ['Poca', 'Moderada', 'Severa']">
+                    <small> {{ item }} </small>
+                  </ng-container>
+                </ion-col>
+              </ion-row>
+
+              <ng-container *ngIf="tipoAmenazaEstructuralesArr">
+                <ng-container formArrayName="tipo_amenaza_estructural">
+                  <ng-container [formGroupName]="i"
+                    *ngFor="let item of tipoAmenazaEstructuralesArr.controls; index as i">
+                    <ion-radio-group [value]="getSelectedAmenazaEstructural( item )">
+                      <ion-item>
+                        <ng-container *ngFor="let options of item.get('options').value; index as x">
+                          <ion-radio slot="end" (ionFocus)="activeCheckTipoAmenazaEstructural( $event,i, x )"
+                            [value]="options.name"></ion-radio>
+                        </ng-container>
+                        <small>{{ item.get('name').value }}</small>
+                      </ion-item>
+
+                    </ion-radio-group>
+                  </ng-container>
+                </ng-container>
+              </ng-container>
+
+            </ion-col>
+
+          </ion-row>
+
+          <ion-row>
+            <ion-col size="12">
+              <ion-item>
+                <ion-label position="stacked">Observaci&oacute;n</ion-label>
+                <ion-textarea formControlName="observation_amenaza_est"></ion-textarea>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+        </ion-list>
+      </ion-accordion>
+
+      <!-- AMENAZAS NO ESTRUCTURALES -->
+      <ion-accordion value="4" toggle-icon="arrow-down-circle">
+        <ion-item slot="header">
+          <ion-icon name="ban" slot="start" color="secondary"></ion-icon>
+          <ion-label>Amenazas no estructurales</ion-label>
+        </ion-item>
+
+        <ion-list slot="content">
+          <ion-row>
+            <ion-col size="12">
+              <ion-row>
+                <ion-col size="6"></ion-col>
+                <ion-col size="6" class="ion-text-end">
+                  <ng-container *ngFor="let item of ['Poca', 'Moderada', 'Severa']">
+                    <small> {{ item }} </small>
+                  </ng-container>
+                </ion-col>
+              </ion-row>
+
+              <ng-container *ngIf="tipoAmenazaNoEstructuralesArr">
+                <ng-container formArrayName="tipo_amenaza_no_estructural">
+                  <ng-container [formGroupName]="i"
+                    *ngFor="let item of tipoAmenazaNoEstructuralesArr.controls; index as i">
+                    <ion-radio-group [value]="getSelectedAmenazaNoEstructural( item )">
+                      <ion-item>
+                        <ng-container *ngFor="let options of item.get('options').value; index as x">
+                          <ion-radio slot="end" (ionFocus)="activeCheckTipoAmenazaNoEstructural( $event,i, x )"
+                            [value]="options.name"></ion-radio>
+                        </ng-container>
+                        <small>{{ item.get('name').value }}</small>
+                      </ion-item>
+                    </ion-radio-group>
+                  </ng-container>
+                </ng-container>
+              </ng-container>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="12">
+              <ion-item>
+                <ion-label position="stacked">Observaci&oacute;n</ion-label>
+                <ion-textarea formControlName="observation_amenaza_no_est"></ion-textarea>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+        </ion-list>
+      </ion-accordion>
+
+      <!-- AMENAZAS GEOTECNICAS -->
+      <ion-accordion value="5" toggle-icon="arrow-down-circle">
+        <ion-item slot="header">
+          <ion-icon name="warning" slot="start" color="tertiary"></ion-icon>
+          <ion-label>Amenazas geot&eacute;cnicas</ion-label>
+        </ion-item>
+
+        <ion-list slot="content">
+          <ion-row>
+            <ion-col size="12">
+              <ion-row>
+                <ion-col size="6"></ion-col>
+                <ion-col size="6" class="ion-text-end">
+                  <ng-container *ngFor="let item of ['Poca', 'Moderada', 'Severa']">
+                    <small> {{ item }} </small>
+                  </ng-container>
+                </ion-col>
+              </ion-row>
+
+              <ng-container *ngIf="tipoAmenazaGeotecnicasArr">
+                <ng-container formArrayName="tipo_amenaza_geotecnica">
+                  <ng-container [formGroupName]="i" *ngFor="let item of tipoAmenazaGeotecnicasArr.controls; index as i">
+                    <ion-radio-group [value]="getSelectedAmenazaGeotecnica( item )">
+                      <ion-item>
+                        <ng-container *ngFor="let options of item.get('options').value; index as x">
+                          <ion-radio slot="end" (ionFocus)="activeCheckTipoAmenazaGeotecnica( $event,i, x )"
+                            [value]="options.name"></ion-radio>
+                        </ng-container>
+                        <small>{{ item.get('name').value }}</small>
+                      </ion-item>
+
+                    </ion-radio-group>
+                  </ng-container>
+                </ng-container>
+              </ng-container>
+
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col size="12">
+              <ion-item>
+                <ion-label position="stacked">Observaci&oacute;n</ion-label>
+                <ion-textarea formControlName="observation_amenaza_geo"></ion-textarea>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+        </ion-list>
+      </ion-accordion>
+
+      <!-- BOSQUEJO -->
+      <ion-accordion value="6" toggle-icon="arrow-down-circle">
+        <ion-item slot="header">
+          <ion-icon name="camera" slot="start" color="dark"></ion-icon>
+          <ion-label>Bosquejo</ion-label>
+        </ion-item>
+
+        <ion-list slot="content">
+          <ion-row>
+            <ion-col size="12" class="ion-text-center">
+              <ion-button (click)="showCamera()" size="small" color="medium">
+                <ion-icon slot="icon-only" name="camera"></ion-icon>
+              </ion-button>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col size="3" *ngFor="let item of tmpImages">
+              <ion-card>
+                <img [src]="item">
+              </ion-card>
+            </ion-col>
+          </ion-row>
+        </ion-list>
+      </ion-accordion>
+
+      <!-- ESTIMACION DE DAÑOS -->
+      <ion-accordion value="7" toggle-icon="arrow-down-circle">
+        <ion-item slot="header">
+          <ion-icon name="bar-chart" slot="start" color="medium"></ion-icon>
+          <ion-label>Estimaci&oacute;n de daños</ion-label>
+        </ion-item>
+
+        <ion-list slot="content">
+          <ion-row class="ion-justify-content-evenly" class="ion-padding-start ion-padding-end">
+            <ion-col size="12">
+              <ion-text>
+                <small>Si es que es requerido por la jurisdicci&oacute;n local estimar los daños de la
+                  edificaci&oacute;n ( costo de reparaci&oacute;n / costo de reemplazo )</small>
+              </ion-text>
+            </ion-col>
+          </ion-row>
+
+          <ng-container *ngIf="tipoEstimacionDanioArr">
+            <ng-container formArrayName="tipo_estimacion_danio">
+              <ion-radio-group [value]="dateSelected.selected_estimacion_danio">
+
+                <ng-container [formGroupName]="i" *ngFor="let item of tipoEstimacionDanioArr.controls; index as i">
+                  <ion-item>
+                    <small>{{ item.get('name').value }}</small>
+                    <ion-radio slot="end" (ionFocus)="activeCheckTipoEstimacionDanio( $event,i )"
+                      [value]="item.get('code').value"></ion-radio>
+                  </ion-item>
+                </ng-container>
+
+              </ion-radio-group>
+
+            </ng-container>
+          </ng-container>
+
+        </ion-list>
+      </ion-accordion>
+
+      <!-- MARCACION -->
+      <ion-accordion value="8" toggle-icon="arrow-down-circle">
+        <ion-item slot="header">
+          <ion-icon name="checkbox" slot="start" color="primary"></ion-icon>
+          <ion-label>Marcaci&oacute;n</ion-label>
+        </ion-item>
+
+        <ion-list slot="content">
+          <ion-row class="ion-justify-content-evenly" class="ion-padding-start ion-padding-end">
+            <ion-col size="12">
+              <ion-text>
+                <small>Si la estructura ha sido evaluada y marcada previamente marcar la casilla correspondiente</small>
+              </ion-text>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col size="12">
+
+              <ion-list-header>
+                <ion-label>Marcaci&oacute;n previa:</ion-label>
+              </ion-list-header>
+
+              <ng-container *ngIf="tipoMarcacionArr">
+                <ng-container formArrayName="tipo_marcacion">
+                  <ion-radio-group [value]="dateSelected.selected_marcacion">
+                    <ng-container [formGroupName]="i" *ngFor="let item of tipoMarcacionArr.controls; index as i">
+                      <ion-item>
+                        <small>{{ item.get('name').value }}</small>
+                        <ion-radio slot="end" (ionFocus)="activeCheckTipoMarcacion( $event,i )"
+                        [value]="item.get('code').value"></ion-radio>
+                      </ion-item>
+                    </ng-container>
+                  </ion-radio-group>
+                </ng-container>
+              </ng-container>
+
+            </ion-col>
+          </ion-row>
+
+          <ion-row class="ion-justify-content-evenly" class="ion-padding-start ion-padding-end">
+            <ion-col size="12">
+              <ion-text>
+                <small>Si es que es necesario revisar la marcación previa y con el juicio adecuado compararla con la
+                  nueva evaluación.
+                  Condiciones severas que pongan en riesgo el estado general de la edificación deberán ser marcadas como
+                  inseguras.Daños locales, o moderados (en la estructura general) podrán ser marcados como uso
+                  restringido. Indicar la marcación de la edificación en la esquina superior derecha de la
+                  página uno.</small>
+              </ion-text>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col size="12">
+
+              <ng-container *ngIf="tipoPancartaArr">
+                <ng-container formArrayName="tipo_pancarta">
+                  <ion-radio-group [value]="dateSelected.selected_pancarta">
+                    <ng-container [formGroupName]="i" *ngFor="let item of tipoPancartaArr.controls; index as i">
+                      <ion-item>
+                        <small>{{ item.get('name').value }}</small>
+                        <ion-radio slot="end" (ionFocus)="activeCheckTipoPancarta( $event,i )"
+                        [value]="item.get('code').value"></ion-radio>
+                      </ion-item>
+                    </ng-container>
+                  </ion-radio-group>
+                </ng-container>
+              </ng-container>
+
+            </ion-col>
+          </ion-row>
+
+          <ion-row class="ion-padding">
+            <ion-col size="12">
+              <small>Detallar cualquier tipo de restricción en la pancarta, puedes ser restricción de uso o de
+                ingreso:</small>
+            </ion-col>
+            <ion-col size="12">
+              <ion-item>
+                <ion-textarea placeholder="detallar aqui..." formControlName="observation_marcacion"></ion-textarea>
+                
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+        </ion-list>
+      </ion-accordion>
+
+      <!-- MEDIDAS A TOMAR -->
+      <ion-accordion value="10" toggle-icon="arrow-down-circle">
+        <ion-item slot="header">
+          <ion-icon name="document-text" slot="start" color="success"></ion-icon>
+          <ion-label>Medidas a tomar</ion-label>
+        </ion-item>
+
+        <ion-list slot="content">
+          <ion-row class="ion-justify-content-evenly" class="ion-padding-start ion-padding-end">
+            <ion-col size="12">
+              <ion-text>
+                <small>Marcar las Casillas correspondientes a las futuras medidas que deben ser tomadas</small>
+              </ion-text>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col size="12">
+
+              <ng-container *ngIf="tipoMedidasArr">
+                <ng-container formArrayName="tipo_medidas">
+                  <ion-radio-group [value]="dateSelected.selected_medidas">
+                    <ng-container [formGroupName]="i" *ngFor="let item of tipoMedidasArr.controls; index as i">
+                      <ion-item>
+                        <small>{{ item.get('name').value }}</small>
+                        <ion-radio slot="end" (ionFocus)="activeCheckTipoMedidas( $event,i )"
+                        [value]="item.get('code').value"></ion-radio> 
+                      </ion-item>
+  
+                      <ion-item>
+                        <ion-textarea placeholder="Ingrese comentario {{ item.get('name').value }}..." formControlName="observation"> {{ item.get('observation').value }} </ion-textarea>
+                      </ion-item>
+                    </ng-container>
+                  </ion-radio-group>
+                </ng-container>
+              </ng-container>
+
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col size="12">
+              <ion-item>
+                <ion-label position="stacked">Comentarios</ion-label>
+                <ion-textarea placeholder="Ingrese comentario general..." formControlName="observation_medidas"></ion-textarea>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+        </ion-list>
+      </ion-accordion>
+
+    </ion-accordion-group>
+
+    <ion-row class="ion-padding">
+      <ion-col size="12">
+        <ion-button expand="full" 
+          type="submit" 
+          [disabled] = "docForm.invalid || loading"
+          size="large">
+          <ng-container *ngIf="loading; else ok">
+            Por favor espere...<ion-spinner name="bubbles"></ion-spinner>
+          </ng-container>
+          <ng-template #ok>
+            Crear Documento
+          </ng-template>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </form>
+</ion-content>

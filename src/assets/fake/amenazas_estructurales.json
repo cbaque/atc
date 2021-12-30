@@ -1,0 +1,128 @@
+[
+    {
+        "code": "CIMENTACIONES",
+        "name": "Cimentaciones",
+        "options" : [
+            { 
+                "name" : "poca",
+                "selected": false 
+            },
+            { 
+                "name" : "moderada",
+                "selected": false 
+            },
+            { 
+                "name" : "severa",
+                "selected": false 
+            }
+        ]
+    },
+    {
+        "code": "PISOS_TECHOS",
+        "name": "Pisos, techos (cargas verticales)",
+        "options" : [
+            { 
+                "name" : "poca",
+                "selected": false 
+            },
+            { 
+                "name" : "moderada",
+                "selected": false 
+            },
+            { 
+                "name" : "severa",
+                "selected": false 
+            }
+        ]        
+    },
+    {
+        "code": "COLUMNAS_PILASTRAS",
+        "name": "Columnas, pilastras, ménsulas",
+        "options" : [
+            { 
+                "name" : "poca",
+                "selected": false 
+            },
+            { 
+                "name" : "moderada",
+                "selected": false 
+            },
+            { 
+                "name" : "severa",
+                "selected": false 
+            }
+        ]        
+    },  
+    {
+        "code": "DIAGRAGMAS",
+        "name": "Diafragmas, arrostramiento horizontal",
+        "options" : [
+            { 
+                "name" : "poca",
+                "selected": false 
+            },
+            { 
+                "name" : "moderada",
+                "selected": false 
+            },
+            { 
+                "name" : "severa",
+                "selected": false 
+            }
+        ]        
+    }, 
+    {
+        "code": "MURO_VERTICAL",
+        "name": "Muros, arrastramiento vertical",
+        "options" : [
+            { 
+                "name" : "poca",
+                "selected": false 
+            },
+            { 
+                "name" : "moderada",
+                "selected": false 
+            },
+            { 
+                "name" : "severa",
+                "selected": false 
+            }
+        ]        
+    }, 
+    {
+        "code": "CONEXIONES_PREFA",
+        "name": "Conexiones prefabricadas",
+        "options" : [
+            { 
+                "name" : "poca",
+                "selected": false 
+            },
+            { 
+                "name" : "moderada",
+                "selected": false 
+            },
+            { 
+                "name" : "severa",
+                "selected": false 
+            }
+        ]        
+    },   
+    {
+        "code": "OTRO",
+        "name": "Otro.",
+        "options" : [
+            { 
+                "name" : "poca",
+                "selected": false 
+            },
+            { 
+                "name" : "moderada",
+                "selected": false 
+            },
+            { 
+                "name" : "severa",
+                "selected": false 
+            }
+        ]        
+    }                   
+]

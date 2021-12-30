@@ -1,0 +1,80 @@
+<ion-header class="ion-no-border">
+
+  <img src="assets/images/wave-login.png" alt="">
+  <ion-toolbar class="ion-text-center">
+    <ion-title class="ion-text-wrap spacing">
+      <p>ATC</p>
+      <p><small>Applied Technology Council</small></p>
+    </ion-title>
+  </ion-toolbar>
+
+  <ion-toolbar class="ion-text-center ion-padding">
+    <ion-title class="ion-text-wrap spacing">Iniciar Sesi&oacute;n</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen="true" class="ion-padding">
+  
+    <ion-grid fixed class="ion-padding">
+      <form [formGroup]="authForm" (ngSubmit)="login()">
+        <ion-row>
+          <ion-col>
+    
+            <ion-list>
+    
+              <ion-item lines="full">
+                <ion-label position="floating">CI Inspector</ion-label>
+                <ion-input name="email" formControlName="username" type="email" required></ion-input>
+                <ion-icon name="mail" slot="start"></ion-icon>
+                <ng-container *ngFor="let validation of validator.validationMessages.username">
+                  <ion-text color="danger" *ngIf="authForm.get('username').hasError(validation.type) && (authForm.get('username').dirty || authForm.get('username').touched)">
+                    {{ validation.message }}
+                  </ion-text>
+                </ng-container>                 
+              </ion-item>
+    
+              <ion-item lines="full">
+                <ion-label position="floating">Contraseña</ion-label>
+                <ion-input name="password" formControlName="password" type="password" required></ion-input>
+                <ion-icon name="bag" slot="start"></ion-icon>
+                <ng-container *ngFor="let validation of validator.validationMessages.password">
+                  <ion-text color="danger" *ngIf="authForm.get('password').hasError(validation.type) && (authForm.get('password').dirty || authForm.get('password').touched)">
+                    {{ validation.message }}
+                  </ion-text>
+                </ng-container>                
+              </ion-item>
+    
+            </ion-list>
+          </ion-col>
+        </ion-row>
+    
+        <ion-row>
+          <ion-col>
+            <ion-button 
+            type="submit" 
+            expand="full" 
+            [disabled] = "authForm.invalid || loading"
+            
+            size="large">
+              <ng-container *ngIf="loading; else ok">
+                Por favor espere...<ion-spinner name="bubbles"></ion-spinner>
+              </ng-container>
+              <ng-template #ok>
+                Iniciar
+              </ng-template>
+            </ion-button>
+          </ion-col>
+        </ion-row>
+
+      </form>
+    </ion-grid>
+
+  
+
+</ion-content>
+
+<ion-footer class="ion-no-border">
+  <ion-toolbar class="ion-text-center">
+    <ion-title size="small">No tienes cuenta? <ion-router-link [routerLink]="'/signup'" href="#" class="underline">Crear</ion-router-link></ion-title>
+  </ion-toolbar>
+</ion-footer>

@@ -1,0 +1,29 @@
+[
+    {
+        "code": "BARRICAR",
+        "name": "Es necesario barricar las siguientes áreas:",
+        "value": ""
+    },
+    {
+        "code": "INGENIERIL",
+        "name": "Evaluación ingenieril recomendada:"
+    },
+    {
+        "code": "ESSTRUCTURAL",
+        "name": "Estructural"
+    },
+    {
+        "code": "GEOTECNICO",
+        "name": "Geotécnico"
+    },
+    {
+        "code": "OTRO",
+        "name": "Otro",
+        "value": ""
+    },
+    {
+        "code": "OTRAS_RECOMENDACIONES",
+        "name": "Otras recomendaciones",
+        "value": ""
+    }                         
+]

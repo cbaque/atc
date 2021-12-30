@@ -1,0 +1,146 @@
+[
+    {
+        "code": "PARAPETOS",
+        "name": "Parapetos, ornamentación",
+        "options" : [
+            { 
+                "name" : "poca",
+                "selected": false 
+            },
+            { 
+                "name" : "moderada",
+                "selected": false 
+            },
+            { 
+                "name" : "severa",
+                "selected": false 
+            }
+        ]
+    },
+    {
+        "code": "REVESTIMIENTO",
+        "name": "Un revestimiento",
+        "options" : [
+            { 
+                "name" : "poca",
+                "selected": false 
+            },
+            { 
+                "name" : "moderada",
+                "selected": false 
+            },
+            { 
+                "name" : "severa",
+                "selected": false 
+            }
+        ]        
+    },
+    {
+        "code": "TECHO_FALSO",
+        "name": "Techo falso, iluminación",
+        "options" : [
+            { 
+                "name" : "poca",
+                "selected": false 
+            },
+            { 
+                "name" : "moderada",
+                "selected": false 
+            },
+            { 
+                "name" : "severa",
+                "selected": false 
+            }
+        ]        
+    },  
+    {
+        "code": "INTERIORES",
+        "name": "Paredes interiores",
+        "options" : [
+            { 
+                "name" : "poca",
+                "selected": false 
+            },
+            { 
+                "name" : "moderada",
+                "selected": false 
+            },
+            { 
+                "name" : "severa",
+                "selected": false 
+            }
+        ]        
+    }, 
+    {
+        "code": "ASCENSORES",
+        "name": "Ascensores",
+        "options" : [
+            { 
+                "name" : "poca",
+                "selected": false 
+            },
+            { 
+                "name" : "moderada",
+                "selected": false 
+            },
+            { 
+                "name" : "severa",
+                "selected": false 
+            }
+        ]        
+    }, 
+    {
+        "code": "ESCALERAS_SALIDAS",
+        "name": "Escaleras, salidas",
+        "options" : [
+            { 
+                "name" : "poca",
+                "selected": false 
+            },
+            { 
+                "name" : "moderada",
+                "selected": false 
+            },
+            { 
+                "name" : "severa",
+                "selected": false 
+            }
+        ]        
+    },  
+    {
+        "code": "ELECTRICO_GAS",
+        "name": "Eléctrico, gas",
+        "options" : [
+            { 
+                "name" : "poca",
+                "selected": false 
+            },
+            { 
+                "name" : "moderada",
+                "selected": false 
+            },
+            { 
+                "name" : "severa",
+                "selected": false 
+            }
+        ]        
+    },  
+    {
+        "code": "OTRO",
+        "name": "Otro.",
+        "options" : [
+            { 
+                "name" : "poca",
+                "selected": false 
+            },
+            { 
+                "name" : "moderada",
+                "selected": false 
+            },
+            { 
+                "name" : "severa",
+                "selected": false 
+            }
+        ]        
+    }                   
+]

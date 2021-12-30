@@ -1,0 +1,46 @@
+[
+    {
+        "code": "FAMILIAR",
+        "name": "Familiar"
+    },
+    {
+        "code": "OTRO_RESIDENCIA",
+        "name": "Otro tipo de residencia"
+    },
+    {
+        "code": "PUBLICA",
+        "name": "Asamblea pública"
+    },
+    {
+        "code": "EMERGENCIA",
+        "name": "Servicios de emergencia "
+    },
+    {
+        "code": "COMERCIAL",
+        "name": "Comercial"
+    },
+    {
+        "code": "OFICINA",
+        "name": "Oficinas"
+    },
+    {
+        "code": "INDUSTRIAL",
+        "name": "Industrial"
+    },
+    {
+        "code": "OTROS",
+        "name": "Otros."
+    },
+    {
+        "code": "GUBERNAMENTAL",
+        "name": "Gubernamental"
+    },
+    {
+        "code": "HISTORICO",
+        "name": "Historico"
+    },
+    {
+        "code": "COLEGIO",
+        "name": "Colegio"
+    }              
+]

@@ -1,0 +1,56 @@
+[
+    {
+        "code": "EDI_COLAPSADA",
+        "name": "Edificación colapsada total o parcialmente",
+        "options" : [
+            { 
+                "name" : "poca",
+                "selected": false 
+            },
+            { 
+                "name" : "moderada",
+                "selected": false 
+            },
+            { 
+                "name" : "severa",
+                "selected": false 
+            }
+        ]
+    },
+    {
+        "code": "EDI_PISO_INCLINADO",
+        "name": "Edificación o pisos inclinados",
+        "options" : [
+            { 
+                "name" : "poca",
+                "selected": false 
+            },
+            { 
+                "name" : "moderada",
+                "selected": false 
+            },
+            { 
+                "name" : "severa",
+                "selected": false 
+            }
+        ]        
+    },
+    {
+        "code": "OTRO",
+        "name": "Otro.",
+        "options" : [
+            { 
+                "name" : "poca",
+                "selected": false 
+            },
+            { 
+                "name" : "moderada",
+                "selected": false 
+            },
+            { 
+                "name" : "severa",
+                "selected": false 
+            }
+        ]        
+    }                   
+]

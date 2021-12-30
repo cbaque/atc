@@ -1,0 +1,34 @@
+[
+    {
+        "code": "ESTRUC_MADERA",
+        "name": "Estructura de Madera."
+    },
+    {
+        "code": "ESTRUC_METALICA",
+        "name": "Estructura de Metálica."
+    },
+    {
+        "code": "ESTRUC_PREFRABRICADA",
+        "name": "Estructura modular prefabricada."
+    },
+    {
+        "code": "ESTRUC_HORMIGON",
+        "name": "Estructura de hormigón."
+    },
+    {
+        "code": "ESTRUC_MUROS_HORMIGON",
+        "name": "Estructura con muros de hormigón"
+    },
+    {
+        "code": "MAMPOSTERIA_SIN",
+        "name": "Mampostería sin refuerzo estructural"
+    },
+    {
+        "code": "MAMPOSTERIA_CON",
+        "name": "Mampostería con refuerzo estructura"
+    },
+    {
+        "code": "OTROS",
+        "name": "Otros."
+    }               
+]

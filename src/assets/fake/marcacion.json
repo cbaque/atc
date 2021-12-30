@@ -1,0 +1,18 @@
+[
+    {
+        "code": "INSPECCIONADA",
+        "name": "Inspeccionada"
+    },
+    {
+        "code": "USO_RESTRINGIDO",
+        "name": "Uso de Restringido"
+    },
+    {
+        "code": "INSEGURO",
+        "name": "Inseguro"
+    },
+    {
+        "code": "INSPECTOR",
+        "name": "CI Inspector"
+    }              
+]

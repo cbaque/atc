@@ -21,7 +21,7 @@ export class DocumentsService {
     private router: Router,
   ) { }
 
-  public post( data: any ) {
+  public post( data: any, user: number ) {
     this.messageSrv.isLoading.next(true);
     const dateNow: String = new Date().toISOString();
 
@@ -42,7 +42,8 @@ export class DocumentsService {
                                         observation_amenaza_geo,
                                         observation_marcacion,
                                         observation_medidas,
-                                        date_created                                      
+                                        date_created,
+                                        user_created                                      
                                         ) 
                                         VALUES 
                                         ( 
@@ -60,12 +61,11 @@ export class DocumentsService {
                                           '${ data.observation_amenaza_geo }',
                                           '${ data.observation_marcacion }',
                                           '${ data.observation_medidas }',
-                                          '${ dateNow }'
+                                          '${ dateNow }',
+                                          ${ user }
                                         )`
         ,[]
       ).then( ( row: any ) => {
-
-        // console.log( 'datos posteo', data )
 
         let id = Number( row.insertId )
         data.tipo_construccion.forEach( res => {
@@ -170,11 +170,11 @@ export class DocumentsService {
     }) 
   }
 
-  public get() {
+  public get( id: number ) {
     return new Promise( ( resolve, reject ) => {
       this.conOffline.open()
         .then((db: SQLiteObject) => {
-          db.executeSql(` SELECT * FROM ${ this.dbTable } `, [])
+          db.executeSql(` SELECT * FROM ${ this.dbTable } WHERE user_created = ?`, [ id ])
           .then( res => {
             this.DOCUMENTS = [];
             if ( res.rows.length > 0 ) {
@@ -273,5 +273,151 @@ export class DocumentsService {
         })
         .catch(e => console.log('error general ', e));  
     })    
+  }
+
+  public update( data: any, id: number ) {
+    this.messageSrv.isLoading.next(true);
+    const dateNow: String = new Date().toISOString();
+
+    this.conOffline.open()
+    .then( ( db ) => {
+      db.executeSql(
+        `UPDATE ${ this.dbTable }
+        SET nombre_edificacion = '${ data.nombre_edificacion }', 
+        direccion_edificacion = '${ data.direccion_edificacion }', 
+        numero_contacto = '${ data.numero_contacto }',
+        pisos_sobre_suelo = '${ data.pisos_sobre_suelo }',
+        subsuelos = '${ data.subsuelos }',
+        area_en_planta = '${ data.area_en_planta }',
+        residencia_habitada = '${ data.residencia_habitada }',
+        residencia_no_habitada = '${ data.residencia_no_habitada }',
+        observation_amenaza_gen = '${ data.observation_amenaza_gen }',
+        observation_amenaza_est = '${ data.observation_amenaza_est }',
+        observation_amenaza_no_est = '${ data.observation_amenaza_no_est }',
+        observation_amenaza_geo = '${ data.observation_amenaza_geo }',
+        observation_marcacion = '${ data.observation_marcacion }',
+        observation_medidas = '${ data.observation_medidas }',
+        date_created = '${ dateNow }'
+        WHERE id = ${ id }`
+        ,[]
+      ).then( ( row: any ) => {
+
+        this.deleteDetails( id );
+
+        data.tipo_construccion.forEach( res => {
+          this.postDetails( res , { id, type: 'TIPO_CONSTRUCCION' } )
+        });
+
+        data.tipo_educacion.forEach( res => {
+          this.postDetails( res , { id, type: 'TIPO_EDUCACION' } )
+        });
+
+        data.tipo_amenaza_general.forEach( res => {
+          this.postDetails( res , 
+          { 
+            id, 
+            type: 'AMENAZA_GENERAL', 
+            little    : ( res.options ) ? res.options[0].selected : 0, 
+            moderate  : ( res.options ) ? res.options[1].selected : 0, 
+            severe    : ( res.options ) ? res.options[2].selected : 0 
+          })
+        });
+
+        data.tipo_amenaza_estructural.forEach( res => {
+          this.postDetails( res , 
+            { 
+              id, 
+              type: 'AMENAZA_ESTRUCTURAL', 
+              little    : ( res.options ) ? res.options[0].selected : 0, 
+              moderate  : ( res.options ) ? res.options[1].selected : 0, 
+              severe    : ( res.options ) ? res.options[2].selected : 0 
+            })
+        });
+
+        data.tipo_amenaza_no_estructural.forEach( res => {
+          this.postDetails( res , 
+            { 
+              id, 
+              type: 'AMENAZA_NO_ESTRUCTURAL',
+              little    : ( res.options ) ? res.options[0].selected : 0, 
+              moderate  : ( res.options ) ? res.options[1].selected : 0, 
+              severe    : ( res.options ) ? res.options[2].selected : 0 
+            }  )
+        });
+
+        data.tipo_amenaza_geotecnica.forEach( res => {
+          this.postDetails( res , 
+            { 
+              id, 
+              type: 'AMENAZA_GEOTECNICA', 
+              little    : ( res.options ) ? res.options[0].selected : 0, 
+              moderate  : ( res.options ) ? res.options[1].selected : 0, 
+              severe    : ( res.options ) ? res.options[2].selected : 0  
+            }  )
+        });
+
+        data.tipo_estimacion_danio.forEach( res => {
+          this.postDetails( res , 
+            { 
+              id, 
+              type: 'ESTIMACION_DANIO', 
+              little    : ( res.options ) ? res.options[0].selected : 0, 
+              moderate  : ( res.options ) ? res.options[1].selected : 0, 
+              severe    : ( res.options ) ? res.options[2].selected : 0 
+            })
+        });
+
+        data.tipo_marcacion.forEach( res => {
+          this.postDetails( res , 
+            { 
+              id, 
+              type: 'MARCACION', 
+              little    : ( res.options ) ? res.options[0].selected : 0, 
+              moderate  : ( res.options ) ? res.options[1].selected : 0, 
+              severe    : ( res.options ) ? res.options[2].selected : 0 
+            })
+        });
+
+        data.tipo_pancarta.forEach( res => {
+          this.postDetails( res , { 
+            id, 
+            type: 'PANCARTA', 
+            little    : ( res.options ) ? res.options[0].selected : 0, 
+            moderate  : ( res.options ) ? res.options[1].selected : 0, 
+            severe    : ( res.options ) ? res.options[2].selected : 0  
+          })
+        });
+
+        data.tipo_medidas.forEach( res => {
+          this.postDetails( res , { id, type: 'TIPO_MEDIDAS' } )
+        });
+
+        setTimeout(() => {
+          this.messageSrv.isLoading.next(false);
+          this.router.navigate(["/main/tabs/tab1"]);
+        }, 2000);
+
+
+      },( e ) => {
+        this.messageSrv.isLoading.next(false);
+        console.log('error', e)
+        alert( JSON.stringify(e.error))
+      });
+    }) 
+  }
+
+  private deleteDetails( id: number ) {
+    this.conOffline.open()
+    .then( ( db ) => {
+      db.executeSql(
+        `DELETE FROM ${ this.dbTableDocsDetails } WHERE document_id = ${ id }`
+        ,[]
+      ).then( ( row: any ) => {
+        console.log( 'delete detalle', row )
+      },( e ) => {
+        console.log('error', e)
+        alert( JSON.stringify(e.error))
+      });
+    })
   }
 }

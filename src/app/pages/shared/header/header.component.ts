@@ -16,7 +16,7 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
     this.nativeStorage.getItem('user').then( (res) => {
-      // console.log(res);
+      console.log(res);
       this.user = res
     });
   }

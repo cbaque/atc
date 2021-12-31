@@ -521,7 +521,7 @@
                       </ion-item>
   
                       <ion-item>
-                        <ion-textarea placeholder="Ingrese comentario {{ item.get('name').value }}..." formControlName="observation"> {{ item.get('observation').value }} </ion-textarea>
+                        <ion-textarea placeholder="Ingrese comentario {{ item.get('name').value }}..." formControlName="observation" [value]="getObservationMedidas( item )"></ion-textarea>
                       </ion-item>
                     </ng-container>
                   </ion-radio-group>
@@ -555,7 +555,12 @@
             Por favor espere...<ion-spinner name="bubbles"></ion-spinner>
           </ng-container>
           <ng-template #ok>
-            Crear Documento
+            <ng-container *ngIf="id; else crear">
+              Actualizar Documento
+            </ng-container>
+            <ng-template #crear>
+              Crear Documento
+            </ng-template>
           </ng-template>
         </ion-button>
       </ion-col>

@@ -37,6 +37,7 @@ export class AuthPage implements OnInit {
   }
   
   login(){  
+    this.nativeStorage.clear();
     this.loading = true;
     this.authOff.get( this.authForm.value )
     .then( ( res ) => {

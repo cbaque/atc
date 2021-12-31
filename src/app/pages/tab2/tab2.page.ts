@@ -6,6 +6,7 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 import { DocumentsService } from '../../core/services/offline/documents/documents.service';
 import { MessageService } from '../../core/services/message.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
 
 declare var window: any;
 
@@ -31,6 +32,7 @@ export class Tab2Page {
   tipoMedidasArr                : FormArray;
   loading                       : boolean = false;
   dateSelected;
+  id: any;
 
   constructor(
     private listaSrv: ListasService,
@@ -41,6 +43,7 @@ export class Tab2Page {
     private messageSrv: MessageService,
     private route: ActivatedRoute,
     private changeDetector : ChangeDetectorRef,
+    private nativeStorage: NativeStorage,
   ) {
     this.dateSelected = {};
     this.messageSrv.isLoading.subscribe( res => this.loading = res );
@@ -400,20 +403,29 @@ export class Tab2Page {
   }
 
   save() {
-    this.docSrv.post( this.docForm.value );
+    this.nativeStorage.getItem('user').then( (res: any) => {
+      let user = Number ( res.id );
+      if ( this.id ) {
+        this.docSrv.update( this.docForm.value, Number( this.id ) )
+      } else {
+        this.docSrv.post( this.docForm.value, user );
+      }
+    });
+
   }
   
   ionViewDidEnter() {
-    const id = this.route.snapshot.paramMap.get('id');
-    if ( id ) {
-      this.docSrv.edit( Number( id ) )
+    // const id = this.route.snapshot.paramMap.get('id');
+    this.id = this.route.snapshot.paramMap.get('id');
+    if ( this.id ) {
+      this.docSrv.edit( Number( this.id ) )
       .then( res => {
         if ( res ) {
           this.setData( res[0] );
         }
       });
   
-      this.docSrv.editDetails( Number( id ) )
+      this.docSrv.editDetails( Number( this.id ) )
       .then( res => {
         if ( res ) {
           this.setDataDetails( res );
@@ -430,8 +442,6 @@ export class Tab2Page {
     let marcacion = res.filter( res => res.type_lista === 'MARCACION' );
     let pancarta = res.filter( res => res.type_lista === 'PANCARTA' );
     let medidas = res.filter( res => res.type_lista === 'TIPO_MEDIDAS' );
-
-    console.log( medidas )
 
     let amenaza_general = res.filter( res => res.type_lista === 'AMENAZA_GENERAL' );
     let amenaza_estructural = res.filter( res => res.type_lista === 'AMENAZA_ESTRUCTURAL' );
@@ -463,13 +473,13 @@ export class Tab2Page {
     if ( medidas ) {
       let selected_medidas = this.getTiposSelected( medidas )
       this.dateSelected.selected_medidas = selected_medidas;
+      this.dateSelected.medidas = medidas
     }
 
     this.dateSelected.amenaza_general = amenaza_general
     this.dateSelected.amenaza_estructural = amenaza_estructural
     this.dateSelected.amenaza_no_estructural = amenaza_no_estructural
     this.dateSelected.amenaza_geotecnica = amenaza_geotecnica
-    console.log( this.dateSelected )
   }
 
   setData(res: any) {
@@ -563,6 +573,17 @@ export class Tab2Page {
     }
 
     return res;
+  }
+
+  getObservationMedidas( data: any ) {
+    let observation = '';
+    if ( this.dateSelected.medidas ) {
+      // console.log( this.dateSelected.medidas )
+      let value = this.dateSelected.medidas.filter( res => data.controls.code.value === res.code_lista )[0];
+      observation = value.observation;
+    }
+
+    return observation;
   }
 
 }

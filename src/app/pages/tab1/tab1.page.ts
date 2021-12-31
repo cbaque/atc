@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { DocumentsService } from '../../core/services/offline/documents/documents.service';
 import { format, parseISO } from 'date-fns';
 import { Router } from '@angular/router';
+import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
 
 @Component({
   selector: 'app-tab1',
@@ -15,18 +16,22 @@ export class Tab1Page {
   constructor(
     private docSrv: DocumentsService,
     private router: Router,
+    private nativeStorage: NativeStorage,
   ) {
   }
 
   index() {
-    this.docSrv.get()
-    .then( ( res: [] ) => {
-      if ( res ) {
-        this.DOCUMENTS = res;
-      }else {
-        alert('Credenciales incorrectas.')
-      }
+    this.nativeStorage.getItem('user').then( (res: any) => {
+      this.docSrv.get( Number( res.id ) )
+      .then( ( res: [] ) => {
+        if ( res ) {
+          this.DOCUMENTS = res;
+        }else {
+          // alert('Credenciales incorrectas.')
+        }
+      });
     });
+
   }
 
   setFormatDate( date: any) {

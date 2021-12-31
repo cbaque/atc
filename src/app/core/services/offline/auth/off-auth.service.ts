@@ -36,7 +36,8 @@ export class OffAuthService {
   }
 
   public logout() {
-    // this.nativeStorage.remove('user');
+    this.nativeStorage.remove('user');
+    this.nativeStorage.clear();
     this.router.navigate(["/login"]);
   }
 }

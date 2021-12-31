@@ -52,7 +52,8 @@ export class ConectionService {
                   observation_amenaza_geo   varchar(255),
                   observation_marcacion     varchar(255),
                   observation_medidas       varchar(255),
-                  date_created              NUMERIC
+                  date_created              NUMERIC,
+                  user_created              INTEGER
                 )`, [])
               .then( () => {
                 // 

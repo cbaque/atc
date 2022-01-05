@@ -26,7 +26,7 @@ export class ErrorInterceptor implements HttpInterceptor {
 
     return next.handle(request).pipe(
       catchError((err) => {
-        console.log(err)
+        console.log('NONE', err)
         if (err.status === 401) {
           // auto logout if 401 response returned from api
           // this.authenticationService.logout();
@@ -34,7 +34,7 @@ export class ErrorInterceptor implements HttpInterceptor {
         }
 
         if (err.status === 500) {
-          console.log(err.error.message)
+          console.log('----',err.error.message)
           // this.mensajeSrv.isLoading.next( false );
           // snackBar.open(err.error.message, '', { duration: 6000, panelClass: 'snackbar-danger' });
         }        

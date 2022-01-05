@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  databaseOffline: 'act.db'
+  databaseOffline: 'act.db',
+  apiUrl: 'http://www.aptecowebhost.com/apteco-api/public/index.php/api/'
 };
 
 /*

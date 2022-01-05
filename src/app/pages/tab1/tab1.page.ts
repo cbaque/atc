@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
 import { Network } from '@awesome-cordova-plugins/network/ngx';
 import { MessageService } from '../../core/services/message.service';
+import { DocumentsOnService } from 'src/app/core/services/online/documents-on.service';
 
 
 @Component({
@@ -15,18 +16,22 @@ import { MessageService } from '../../core/services/message.service';
 export class Tab1Page {
 
   DOCUMENTS: Array <any> = [];
+  DATOS_USER: any;
 
   constructor(
     private docSrv: DocumentsService,
     private router: Router,
     private nativeStorage: NativeStorage,
     private network: Network,
-    private smsSrv: MessageService
+    private smsSrv: MessageService,
+    private docOnSrv: DocumentsOnService,
+
   ) {
   }
 
   index() {
     this.nativeStorage.getItem('user').then( (res: any) => {
+      this.DATOS_USER = res;
       this.docSrv.get( Number( res.id ) )
       .then( ( res: [] ) => {
         if ( res ) {
@@ -51,7 +56,6 @@ export class Tab1Page {
     this.router.navigate(["/main/tabs/tab2", { id: data.id }]);
   }
 
-
   upLoad( id: number ) {
 
     if ( this.network.type === 'none' ) {
@@ -59,8 +63,30 @@ export class Tab1Page {
       return false;
     }
 
-    alert( id )
+    this.smsSrv.openLoading();
 
+    let data = { cabecera : null, detalles : null, usuario: null };
+
+    this.docSrv.edit( id )
+    .then( res => {
+      if ( res ) {
+        data.cabecera = res;
+        this.docSrv.editDetails( id )
+        .then( res => {
+          if ( res ) {
+            this.docOnSrv.post( data )
+            .subscribe( (res: any) => {
+              console.log( res[0] )
+              setTimeout(() => {
+                this.smsSrv.closeLoading();
+                this.smsSrv.openSuccess( res[0] );
+              }, 2000);
+            })
+
+          }
+        })
+      }
+    });
   }
 
 }

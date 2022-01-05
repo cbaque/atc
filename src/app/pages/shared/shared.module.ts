@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { HeaderComponent } from './header/header.component';
 import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
+import { MensajeOfflineComponent } from './mensaje-offline/mensaje-offline.component';
 
 @NgModule({
   declarations: [ HeaderComponent ],
@@ -12,7 +13,7 @@ import { FormsModule } from '@angular/forms';
     FormsModule,
   ],
   exports: [
-    HeaderComponent
+    HeaderComponent,
   ]
 })
 export class SharedModule { }

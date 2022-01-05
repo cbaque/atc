@@ -13,6 +13,7 @@ import { JwtInterceptor } from './core/interceptor/jwt.interceptor';
 import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
 import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
 import { Camera } from '@awesome-cordova-plugins/camera/ngx';
+import { Network } from '@awesome-cordova-plugins/network/ngx';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { Camera } from '@awesome-cordova-plugins/camera/ngx';
     SQLite,
     NativeStorage,
     Geolocation,
-    Camera
+    Camera,
+    Network
   ],
   bootstrap: [AppComponent],
 })

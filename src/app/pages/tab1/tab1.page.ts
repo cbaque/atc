@@ -3,6 +3,9 @@ import { DocumentsService } from '../../core/services/offline/documents/document
 import { format, parseISO } from 'date-fns';
 import { Router } from '@angular/router';
 import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
+import { Network } from '@awesome-cordova-plugins/network/ngx';
+import { MessageService } from '../../core/services/message.service';
+
 
 @Component({
   selector: 'app-tab1',
@@ -17,6 +20,8 @@ export class Tab1Page {
     private docSrv: DocumentsService,
     private router: Router,
     private nativeStorage: NativeStorage,
+    private network: Network,
+    private smsSrv: MessageService
   ) {
   }
 
@@ -44,6 +49,18 @@ export class Tab1Page {
 
   edit( data: any ) {
     this.router.navigate(["/main/tabs/tab2", { id: data.id }]);
+  }
+
+
+  upLoad( id: number ) {
+
+    if ( this.network.type === 'none' ) {
+      this.smsSrv.openModalOffline();
+      return false;
+    }
+
+    alert( id )
+
   }
 
 }

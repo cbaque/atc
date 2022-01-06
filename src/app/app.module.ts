@@ -14,6 +14,8 @@ import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
 import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
 import { Camera } from '@awesome-cordova-plugins/camera/ngx';
 import { Network } from '@awesome-cordova-plugins/network/ngx';
+import { FileTransfer } from '@awesome-cordova-plugins/file-transfer/ngx';
+
 
 @NgModule({
   declarations: [
@@ -43,7 +45,8 @@ import { Network } from '@awesome-cordova-plugins/network/ngx';
     NativeStorage,
     Geolocation,
     Camera,
-    Network
+    Network,
+    FileTransfer,
   ],
   bootstrap: [AppComponent],
 })

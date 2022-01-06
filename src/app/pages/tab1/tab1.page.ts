@@ -6,7 +6,10 @@ import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
 import { Network } from '@awesome-cordova-plugins/network/ngx';
 import { MessageService } from '../../core/services/message.service';
 import { DocumentsOnService } from 'src/app/core/services/online/documents-on.service';
+import { FileTransfer, FileUploadOptions, FileTransferObject } from '@awesome-cordova-plugins/file-transfer/ngx';
+import { environment } from 'src/environments/environment';
 
+const apiUlr = environment.apiUrl;
 
 @Component({
   selector: 'app-tab1',
@@ -25,7 +28,7 @@ export class Tab1Page {
     private network: Network,
     private smsSrv: MessageService,
     private docOnSrv: DocumentsOnService,
-
+    private fileSrv: FileTransfer,
   ) {
   }
 
@@ -77,16 +80,40 @@ export class Tab1Page {
             data.detalles = det;
             this.docOnSrv.post( data )
             .subscribe( (response: any) => {
-              setTimeout(() => {
-                this.smsSrv.closeLoading();
-                this.smsSrv.openSuccess( response[0] );
-              }, 2000);
+
+              this.docSrv.editPhotosServer( id )
+              .then( (pho: any) =>  {
+                console.log( pho )
+                if ( pho) {
+                  pho.forEach(element => {
+                    this.uploadImg( element.photo_serve )
+                  });
+                }
+
+                setTimeout(() => {
+                  this.smsSrv.closeLoading();
+                  this.smsSrv.openSuccess( response[0] );
+                }, 2000);
+
+              })
             })
 
           }
         })
       }
     });
+  }
+
+
+  uploadImg( img ) {
+    const options: FileUploadOptions = {
+      fileKey: 'image',
+      fileName: Date.now()+'.jpg'
+    };
+
+    const fileTransfer: FileTransferObject = this.fileSrv.create();
+
+    fileTransfer.upload( img, `${ apiUlr }documents/upload`, options )
   }
 
 }

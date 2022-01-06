@@ -360,6 +360,28 @@ export class DocumentsService {
     })    
   }
 
+  public editPhotosServer( id:number ) {
+    return new Promise( ( resolve, reject ) => {
+      this.conOffline.open()
+        .then((db: SQLiteObject) => {
+          db.executeSql(` SELECT * FROM ${ this.dbTablePhotos } WHERE document_id = ? AND photo_serve != ''`, [ id ])
+          .then( res => {
+            this.DOCUMENTS_PHOTOS = [];
+            if ( res.rows.length > 0 ) {
+              for (let index = 0; index < res.rows.length; index++) {
+                this.DOCUMENTS_PHOTOS.push(res.rows.item(index));
+              }
+            }
+            resolve( this.DOCUMENTS_PHOTOS );
+          }
+          , ( e ) => {
+            resolve(e)
+          });
+        })
+        .catch(e => console.log('error general photos', e));  
+    })    
+  }
+
   public update( data: any, id: number ) {
     this.messageSrv.isLoading.next(true);
     const dateNow: String = new Date().toISOString();

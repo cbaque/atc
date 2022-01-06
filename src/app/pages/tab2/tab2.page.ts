@@ -447,10 +447,19 @@ export class Tab2Page {
         if ( res ) {
           res.forEach( (element: any) => {
             this.tmpImages.push( element.photo_local )
+          });
+        }
+      })
+
+      this.docSrv.editPhotosServer( Number( this.id ) )
+      .then( (res: any) => {
+        if ( res ) {
+          res.forEach( (element: any) => {
             this.tmpImagesSrv.push( element.photo_serve )
           });
         }
       })
+
     }
   }
 

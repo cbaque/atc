@@ -24,6 +24,7 @@ export class DocumentsService {
   public post( data: any, user: number ) {
     this.messageSrv.isLoading.next(true);
     const dateNow: String = new Date().toISOString();
+    const coordinates = data.coordinates.latitude + ',' + data.coordinates.longitude;
 
     this.conOffline.open()
     .then( ( db ) => {
@@ -43,7 +44,8 @@ export class DocumentsService {
                                         observation_marcacion,
                                         observation_medidas,
                                         date_created,
-                                        user_created                                      
+                                        user_created,
+                                        coordinates                                      
                                         ) 
                                         VALUES 
                                         ( 
@@ -62,7 +64,8 @@ export class DocumentsService {
                                           '${ data.observation_marcacion }',
                                           '${ data.observation_medidas }',
                                           '${ dateNow }',
-                                          ${ user }
+                                          ${ user },
+                                          '${ coordinates }'
                                         )`
         ,[]
       ).then( ( row: any ) => {
@@ -164,7 +167,7 @@ export class DocumentsService {
 
       },( e ) => {
         this.messageSrv.isLoading.next(false);
-        console.log('error', e)
+        console.log('error cabecera', e)
         alert( JSON.stringify(e.error))
       });
     }) 

@@ -72,14 +72,14 @@ export class Tab1Page {
       if ( res ) {
         data.cabecera = res;
         this.docSrv.editDetails( id )
-        .then( res => {
-          if ( res ) {
+        .then( det => {
+          if ( det ) {
+            data.detalles = det;
             this.docOnSrv.post( data )
-            .subscribe( (res: any) => {
-              console.log( res[0] )
+            .subscribe( (response: any) => {
               setTimeout(() => {
                 this.smsSrv.closeLoading();
-                this.smsSrv.openSuccess( res[0] );
+                this.smsSrv.openSuccess( response[0] );
               }, 2000);
             })
 

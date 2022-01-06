@@ -93,6 +93,7 @@ export class Tab2Page {
       tipo_marcacion            : this.formBuilder.array([]),
       tipo_pancarta             : this.formBuilder.array([]),
       tipo_medidas              : this.formBuilder.array([]),
+      coordinates               : new FormControl( '' ) 
     });
   }
 
@@ -405,6 +406,7 @@ export class Tab2Page {
   save() {
     this.nativeStorage.getItem('user').then( (res: any) => {
       let user = Number ( res.id );
+      this.docForm.get('coordinates').patchValue(this.COORDENADAS);
       if ( this.id ) {
         this.docSrv.update( this.docForm.value, Number( this.id ) )
       } else {
@@ -578,12 +580,19 @@ export class Tab2Page {
   getObservationMedidas( data: any ) {
     let observation = '';
     if ( this.dateSelected.medidas ) {
-      // console.log( this.dateSelected.medidas )
       let value = this.dateSelected.medidas.filter( res => data.controls.code.value === res.code_lista )[0];
       observation = value.observation;
     }
 
     return observation;
+  }
+
+  getCoorNew() {
+    this.geolocation.getCurrentPosition().then((resp) => {
+      this.COORDENADAS = { latitude: resp.coords.latitude, longitude : resp.coords.longitude  }
+     }).catch((error) => {
+       console.log('Error getting location', error);
+     });
   }
 
 }

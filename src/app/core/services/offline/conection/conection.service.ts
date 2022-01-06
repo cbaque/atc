@@ -53,7 +53,8 @@ export class ConectionService {
                   observation_marcacion     varchar(255),
                   observation_medidas       varchar(255),
                   date_created              NUMERIC,
-                  user_created              INTEGER
+                  user_created              INTEGER,
+                  coordinates               varchar(255)
                 )`, [])
               .then( () => {
                 // 

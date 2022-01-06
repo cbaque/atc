@@ -33,6 +33,7 @@ export class Tab2Page {
   loading                       : boolean = false;
   dateSelected;
   id: any;
+  photosArr                     : FormArray;
 
   constructor(
     private listaSrv: ListasService,
@@ -93,7 +94,8 @@ export class Tab2Page {
       tipo_marcacion            : this.formBuilder.array([]),
       tipo_pancarta             : this.formBuilder.array([]),
       tipo_medidas              : this.formBuilder.array([]),
-      coordinates               : new FormControl( '' ) 
+      coordinates               : new FormControl( '' ),
+      photos                    : []
     });
   }
 
@@ -281,6 +283,8 @@ export class Tab2Page {
   }
 
   showCamera() {
+    this.photosArr = this.docForm.get('photos') as FormArray;
+
     const options: CameraOptions = {
       quality: 100,
       destinationType: this.camera.DestinationType.FILE_URI,
@@ -291,12 +295,17 @@ export class Tab2Page {
     }
     
     this.camera.getPicture(options).then((imageData) => {
-     // imageData is either a base64 encoded string or a file URI
-     // If it's base64 (DATA_URL):
-    //  let base64Image = 'data:image/jpeg;base64,' + imageData;
-    //  console.log( base64Image )
+      // imageData is either a base64 encoded string or a file URI
+      // If it's base64 (DATA_URL):
+      // let base64Image = 'data:image/jpeg;base64,' + imageData;
+      //  console.log( base64Image )
       const img = window.Ionic.WebView.convertFileSrc(imageData);
       this.tmpImages.push( img );
+      // this.photosArr.push( 
+      //   this.formBuilder.group({
+      //     photo: base64Image,
+      //   }) 
+      // );
       console.log(img);
     }, (err) => {
       console.log(err)
@@ -406,7 +415,9 @@ export class Tab2Page {
   save() {
     this.nativeStorage.getItem('user').then( (res: any) => {
       let user = Number ( res.id );
+      
       this.docForm.get('coordinates').patchValue(this.COORDENADAS);
+      this.docForm.get('photos').patchValue( this.tmpImages )
       if ( this.id ) {
         this.docSrv.update( this.docForm.value, Number( this.id ) )
       } else {
@@ -431,6 +442,17 @@ export class Tab2Page {
       .then( res => {
         if ( res ) {
           this.setDataDetails( res );
+        }
+      })
+
+      this.tmpImages = []
+
+      this.docSrv.editPhotos( Number( this.id ) )
+      .then( (res: any) => {
+        if ( res ) {
+          res.forEach( (element: any) => {
+            this.tmpImages.push( element.photo_local )
+          });
         }
       })
     }
@@ -507,7 +529,6 @@ export class Tab2Page {
     let value = data.filter( res => res.value )[0];
     return value ? value.code_lista : '';
   }
-
 
   getSelectedAmenazaGeneral( data: any ) {
     let res = '';

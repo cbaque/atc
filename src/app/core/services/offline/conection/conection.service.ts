@@ -12,6 +12,7 @@ export class ConectionService {
   readonly dbTableUsers: string = "users";
   readonly dbTableDocs: string = "documents";
   readonly dbTableDocsDetails: string = "documents_details";
+  readonly dbTablePhotos: string = "documents_photos";
 
   constructor(
     private sqlite: SQLite,
@@ -70,7 +71,18 @@ export class ConectionService {
                   moderate                  INTEGER,
                   severe                    INTEGER
                 )`, [] )
-                .then( () => console.log('Tables Ok') )
+                .then( () => {
+                  //
+                  db.executeSql(
+                    `CREATE TABLE IF NOT EXISTS ${ this.dbTablePhotos } (
+                      id INTEGER PRIMARY KEY, 
+                      document_id               INTEGER,
+                      photo_local               TEXT,
+                      photo_serve               TEXT
+                    )`, [] )
+                    .then( () => console.log( 'Tablas creadas correctamente.' ))
+                    .catch( e => console.log( 'error crear tabla photos' ) )
+                })
                 .catch( e => console.log('error crear table documents details', e) )
               })
               .catch( e => console.log('error crear table documents', e) )

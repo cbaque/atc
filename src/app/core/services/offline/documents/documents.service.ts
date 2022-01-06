@@ -12,8 +12,10 @@ export class DocumentsService {
 
   readonly dbTable: string = "documents";
   readonly dbTableDocsDetails: string = "documents_details";
+  readonly dbTablePhotos: string = "documents_photos";
   DOCUMENTS: Array <any> ;
   DOCUMENTS_DETAILS: Array <any> ;
+  DOCUMENTS_PHOTOS: Array <any> ;
 
   constructor(
     private conOffline: ConectionService,
@@ -71,6 +73,12 @@ export class DocumentsService {
       ).then( ( row: any ) => {
 
         let id = Number( row.insertId )
+
+        // photos
+        data.photos.forEach(element => {
+          this.postPhotos( element, id )
+        });
+
         data.tipo_construccion.forEach( res => {
           this.postDetails( res , { id, type: 'TIPO_CONSTRUCCION' } )
         });
@@ -230,8 +238,31 @@ export class DocumentsService {
         alert( JSON.stringify(e.error))
       });
     }) 
+  }
 
+  public postPhotos( img: any, id: number) {
 
+    this.conOffline.open()
+    .then( ( db ) => {
+      db.executeSql(
+        `INSERT INTO ${ this.dbTablePhotos } ( 
+                                        document_id, 
+                                        photo_local
+                                        ) 
+                                        VALUES 
+                                        ( 
+                                          '${ id }', 
+                                          '${ img }'
+                                        )`
+        ,[]
+      ).then( ( row: any ) => {
+        console.log( 'photos', row )
+        // alert(`Documento ${ data.nombre_edificacion } creado correctamente`)
+      },( e ) => {
+        console.log('error', e)
+        alert( JSON.stringify(e.error))
+      });
+    }) 
   }
 
   public edit( id:number ) {
@@ -278,6 +309,28 @@ export class DocumentsService {
     })    
   }
 
+  public editPhotos( id:number ) {
+    return new Promise( ( resolve, reject ) => {
+      this.conOffline.open()
+        .then((db: SQLiteObject) => {
+          db.executeSql(` SELECT * FROM ${ this.dbTablePhotos } WHERE document_id = ? `, [ id ])
+          .then( res => {
+            this.DOCUMENTS_PHOTOS = [];
+            if ( res.rows.length > 0 ) {
+              for (let index = 0; index < res.rows.length; index++) {
+                this.DOCUMENTS_PHOTOS.push(res.rows.item(index));
+              }
+            }
+            resolve( this.DOCUMENTS_PHOTOS );
+          }
+          , ( e ) => {
+            resolve(e)
+          });
+        })
+        .catch(e => console.log('error general photos', e));  
+    })    
+  }
+
   public update( data: any, id: number ) {
     this.messageSrv.isLoading.next(true);
     const dateNow: String = new Date().toISOString();
@@ -306,6 +359,11 @@ export class DocumentsService {
       ).then( ( row: any ) => {
 
         this.deleteDetails( id );
+        this.deletePhotos( id );
+
+        data.photos.forEach(element => {
+          this.postPhotos( element, id )
+        });
 
         data.tipo_construccion.forEach( res => {
           this.postDetails( res , { id, type: 'TIPO_CONSTRUCCION' } )
@@ -417,6 +475,21 @@ export class DocumentsService {
         ,[]
       ).then( ( row: any ) => {
         console.log( 'delete detalle', row )
+      },( e ) => {
+        console.log('error', e)
+        alert( JSON.stringify(e.error))
+      });
+    })
+  }
+
+  private deletePhotos( id: number ) {
+    this.conOffline.open()
+    .then( ( db ) => {
+      db.executeSql(
+        `DELETE FROM ${ this.dbTablePhotos } WHERE document_id = ${ id }`
+        ,[]
+      ).then( ( row: any ) => {
+        console.log( 'delete photos', row )
       },( e ) => {
         console.log('error', e)
         alert( JSON.stringify(e.error))

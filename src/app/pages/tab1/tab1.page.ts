@@ -86,7 +86,7 @@ export class Tab1Page {
                 console.log( pho )
                 if ( pho) {
                   pho.forEach(element => {
-                    this.uploadImg( element.photo_serve )
+                    this.uploadImg( element.photo_serve, id )
                   });
                 }
 
@@ -105,11 +105,16 @@ export class Tab1Page {
   }
 
 
-  uploadImg( img ) {
+  uploadImg( img, id:number ) {
     const options: FileUploadOptions = {
       fileKey: 'image',
-      fileName: Date.now()+'.jpg'
+      fileName: Date.now()+'.jpg',
+      params: {
+        id: id
+      }
     };
+
+    console.log(  options )
 
     const fileTransfer: FileTransferObject = this.fileSrv.create();
 

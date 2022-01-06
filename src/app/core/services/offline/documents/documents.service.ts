@@ -79,6 +79,10 @@ export class DocumentsService {
           this.postPhotos( element, id )
         });
 
+        data.photos_server.forEach(element => {
+          this.postPhotosServer( element, id )
+        });
+
         data.tipo_construccion.forEach( res => {
           this.postDetails( res , { id, type: 'TIPO_CONSTRUCCION' } )
         });
@@ -265,6 +269,31 @@ export class DocumentsService {
     }) 
   }
 
+  public postPhotosServer( img: any, id: number) {
+
+    this.conOffline.open()
+    .then( ( db ) => {
+      db.executeSql(
+        `INSERT INTO ${ this.dbTablePhotos } ( 
+                                        document_id, 
+                                        photo_serve
+                                        ) 
+                                        VALUES 
+                                        ( 
+                                          '${ id }', 
+                                          '${ img }'
+                                        )`
+        ,[]
+      ).then( ( row: any ) => {
+        console.log( 'photos', row )
+        // alert(`Documento ${ data.nombre_edificacion } creado correctamente`)
+      },( e ) => {
+        console.log('error', e)
+        alert( JSON.stringify(e.error))
+      });
+    }) 
+  }
+
   public edit( id:number ) {
     return new Promise( ( resolve, reject ) => {
       this.conOffline.open()
@@ -313,7 +342,7 @@ export class DocumentsService {
     return new Promise( ( resolve, reject ) => {
       this.conOffline.open()
         .then((db: SQLiteObject) => {
-          db.executeSql(` SELECT * FROM ${ this.dbTablePhotos } WHERE document_id = ? `, [ id ])
+          db.executeSql(` SELECT * FROM ${ this.dbTablePhotos } WHERE document_id = ? AND photo_local != ''`, [ id ])
           .then( res => {
             this.DOCUMENTS_PHOTOS = [];
             if ( res.rows.length > 0 ) {
@@ -363,6 +392,10 @@ export class DocumentsService {
 
         data.photos.forEach(element => {
           this.postPhotos( element, id )
+        });
+
+        data.photos_server.forEach(element => {
+          this.postPhotosServer( element, id )
         });
 
         data.tipo_construccion.forEach( res => {

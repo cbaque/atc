@@ -17,7 +17,8 @@ declare var window: any;
 })
 export class Tab2Page { 
   COORDENADAS                   : any;
-  tmpImages                     : string[] = [];
+  tmpImages                     : string[] = [];        
+  tmpImagesSrv                  : string[] = [];        
   docForm                       : FormGroup;
 
   tipoConstruccionArr           : FormArray;
@@ -95,7 +96,8 @@ export class Tab2Page {
       tipo_pancarta             : this.formBuilder.array([]),
       tipo_medidas              : this.formBuilder.array([]),
       coordinates               : new FormControl( '' ),
-      photos                    : []
+      photos                    : new FormControl( '' ),
+      photos_server             : new FormControl( '' ),
     });
   }
 
@@ -283,8 +285,6 @@ export class Tab2Page {
   }
 
   showCamera() {
-    this.photosArr = this.docForm.get('photos') as FormArray;
-
     const options: CameraOptions = {
       quality: 100,
       destinationType: this.camera.DestinationType.FILE_URI,
@@ -295,18 +295,10 @@ export class Tab2Page {
     }
     
     this.camera.getPicture(options).then((imageData) => {
-      // imageData is either a base64 encoded string or a file URI
-      // If it's base64 (DATA_URL):
-      // let base64Image = 'data:image/jpeg;base64,' + imageData;
-      //  console.log( base64Image )
       const img = window.Ionic.WebView.convertFileSrc(imageData);
       this.tmpImages.push( img );
-      // this.photosArr.push( 
-      //   this.formBuilder.group({
-      //     photo: base64Image,
-      //   }) 
-      // );
-      console.log(img);
+      this.tmpImagesSrv.push( imageData );
+      // console.log(img);
     }, (err) => {
       console.log(err)
     });
@@ -418,6 +410,8 @@ export class Tab2Page {
       
       this.docForm.get('coordinates').patchValue(this.COORDENADAS);
       this.docForm.get('photos').patchValue( this.tmpImages )
+      this.docForm.get('photos_server').patchValue( this.tmpImagesSrv )
+
       if ( this.id ) {
         this.docSrv.update( this.docForm.value, Number( this.id ) )
       } else {
@@ -445,13 +439,15 @@ export class Tab2Page {
         }
       })
 
-      this.tmpImages = []
+      this.tmpImages = [];
+      this.tmpImagesSrv = [];
 
       this.docSrv.editPhotos( Number( this.id ) )
       .then( (res: any) => {
         if ( res ) {
           res.forEach( (element: any) => {
             this.tmpImages.push( element.photo_local )
+            this.tmpImagesSrv.push( element.photo_serve )
           });
         }
       })

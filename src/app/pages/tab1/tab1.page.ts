@@ -83,7 +83,7 @@ export class Tab1Page {
 
               this.docSrv.editPhotosServer( id )
               .then( (pho: any) =>  {
-                console.log( pho )
+                
                 if ( pho) {
                   pho.forEach(element => {
                     this.uploadImg( element.photo_serve, id )
@@ -114,11 +114,9 @@ export class Tab1Page {
       }
     };
 
-    console.log(  options )
-
     const fileTransfer: FileTransferObject = this.fileSrv.create();
 
-    fileTransfer.upload( img, `${ apiUlr }documents/upload`, options )
+    fileTransfer.upload( img, `${ apiUlr }documents/upload`, options ).then( ( res: any ) => console.log('exito photo', res ) ).catch( res => console.log('error photo', res ) )
   }
 
 }

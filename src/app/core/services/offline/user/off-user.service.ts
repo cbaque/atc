@@ -29,8 +29,10 @@ export class OffUserService {
       db.executeSql(
         `INSERT INTO ${ this.dbTable } ( username, nombres, password ) VALUES ( '${ data.username }', '${ data.nombres }', '${ data.password }' )`
         ,[]
-      ).then( () => {
+      ).then( ( row : any ) => {
         this.messageSrv.isLoading.next(false);
+        let id = Number( row.insertId )
+        data.id = id;
         this.nativeStorage.setItem('user', data);
         this.router.navigate(["/main/tabs/tab1"]);
         // alert('ok')

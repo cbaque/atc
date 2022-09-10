@@ -1,0 +1,38 @@
+[
+    {
+        "code": "GOLPES",
+        "name": "Golpes",
+        "options" : [
+            { 
+                "name" : "si",
+                "selected": false 
+            },
+            { 
+                "name" : "no",
+                "selected": false 
+            },
+            { 
+                "name" : "dnk",
+                "selected": false 
+            }
+        ]
+    },  
+    {
+        "code": "PELIGRO_ADYACENTE",
+        "name": "Peligro de caida del Edificio Adyacente",
+        "options" : [
+            { 
+                "name" : "si",
+                "selected": false 
+            },
+            { 
+                "name" : "no",
+                "selected": false 
+            },
+            { 
+                "name" : "dnk",
+                "selected": false 
+            }
+        ]
+    }                       
+]

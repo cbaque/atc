@@ -1,0 +1,38 @@
+[
+    {
+        "code": "ELEVACION",
+        "name": "Elevación( Tipo/Severidad )",
+        "options" : [
+            { 
+                "name" : "si",
+                "selected": false 
+            },
+            { 
+                "name" : "no",
+                "selected": false 
+            },
+            { 
+                "name" : "dnk",
+                "selected": false 
+            }
+        ]
+    },  
+    {
+        "code": "PLANTA",
+        "name": "Planta(Tipo)",
+        "options" : [
+            { 
+                "name" : "si",
+                "selected": false 
+            },
+            { 
+                "name" : "no",
+                "selected": false 
+            },
+            { 
+                "name" : "dnk",
+                "selected": false 
+            }
+        ]
+    }                       
+]

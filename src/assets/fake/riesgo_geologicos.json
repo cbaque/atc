@@ -1,0 +1,56 @@
+[
+    {
+        "code": "LICUEFACCION",
+        "name": "Licuefaccion",
+        "options" : [
+            { 
+                "name" : "si",
+                "selected": false 
+            },
+            { 
+                "name" : "no",
+                "selected": false 
+            },
+            { 
+                "name" : "dnk",
+                "selected": false 
+            }
+        ]
+    },
+    {
+        "code": "DESLIZAMIENTO",
+        "name": "Deslizamiento",
+        "options" : [
+            { 
+                "name" : "si",
+                "selected": false 
+            },
+            { 
+                "name" : "no",
+                "selected": false 
+            },
+            { 
+                "name" : "dnk",
+                "selected": false 
+            }
+        ]        
+    },
+    {
+        "code": "RUPTURA_SUPERFICIE",
+        "name": "Ruptura de Superficie",
+        "options" : [
+            { 
+                "name" : "si",
+                "selected": false 
+            },
+            { 
+                "name" : "no",
+                "selected": false 
+            },
+            { 
+                "name" : "dnk",
+                "selected": false 
+            }
+        ]        
+    }         
+]

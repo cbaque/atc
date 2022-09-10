@@ -1,0 +1,309 @@
+<app-header></app-header>
+<ion-content [fullscreen]="true">
+  <form [formGroup]="docForm" (ngSubmit)="save()">
+
+    <ion-accordion-group>
+
+      <!-- DATOS DE EDIFICACION -->
+      <ion-accordion value="1" toggle-icon="arrow-down-circle">
+
+        <ion-item slot="header">
+          <ion-icon name="business" slot="start" color="primary"></ion-icon>
+          <ion-label>Datos de edificaci&oacute;n *</ion-label>
+        </ion-item>
+
+        <ion-list slot="content" class="ion-padding-start ion-padding-end">
+
+          <ion-row>
+            <ion-col size="12">
+              <ion-item lines="full">
+                <ion-label position="stacked">Nombre de edificaci&oacute;n *</ion-label>
+                <ion-input type="text" inputmode="text" formControlName="nombre_edificacion"></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col size="12">
+              <ion-item lines="full">
+                <ion-label position="stacked">Direcci&oacute;n</ion-label>
+                <ion-input type="text" inputmode="text" formControlName="direccion_edificacion"></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>  
+          
+          <ion-row>
+            <ion-col size="12">
+              <ion-item lines="full">
+                <ion-label position="stacked">C&oacute;digo Castratal</ion-label>
+                <ion-input type="text" inputmode="text" formControlName="codigo_castratal"></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>          
+
+          <ion-row>
+            <ion-col size="12">
+              <ion-item lines="full">
+                <ion-label position="stacked">Año de Construcci&oacute;n</ion-label>
+                <ion-input type="tel" formControlName="anio_construccion_edificacion"></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>  
+
+          <ion-row>
+            <ion-col size="12">
+              <ion-item lines="full">
+                <ion-label position="stacked">Año de Remodelaci&oacute;n</ion-label>
+                <ion-input type="tel" formControlName="anio_remodelacion_edificacion"></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>  
+
+          <ion-row>
+            <ion-col size="12">
+              <ion-item lines="full">
+                <ion-label position="stacked">Año Normativa</ion-label>
+                <ion-input type="tel" formControlName="anio_normativa"></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>          
+
+        </ion-list>
+      </ion-accordion>
+
+      <!-- FOTOGRAFIA -->
+      <ion-accordion value="2" toggle-icon="arrow-down-circle">
+        <ion-item slot="header">
+          <ion-icon name="camera" slot="start" color="dark"></ion-icon>
+          <ion-label>Fotografia y esquema estructural del inmueble</ion-label>
+        </ion-item>
+
+        <ion-list slot="content">
+          <ion-row>
+            <ion-col size="12" class="ion-text-center">
+              <ion-button (click)="showCamera()" size="small" color="medium">
+                <ion-icon slot="icon-only" name="camera"></ion-icon>
+              </ion-button>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col size="3" *ngFor="let item of tmpImages">
+              <ion-card>
+                <img [src]="item">
+              </ion-card>
+            </ion-col>
+          </ion-row>
+        </ion-list>
+      </ion-accordion>    
+      
+      <!-- DATOS DE CONSTRUCCION -->
+      <ion-accordion value="3" toggle-icon="arrow-down-circle">
+
+        <ion-item slot="header">
+          <ion-icon name="bookmarks" slot="start" color="secondary"></ion-icon>
+          <ion-label>Datos de construcci&oacute;n</ion-label>
+        </ion-item>
+
+        <ion-list slot="content" class="ion-padding-start ion-padding-end">
+          <ion-title size="small">Numero de pisos</ion-title>
+
+          <ion-row>
+            <ion-col size="12">
+              <ion-item lines="full">
+                <ion-label position="stacked">Sobre el subsuelo</ion-label>
+                <ion-input type="tel" formControlName="piso_subsuelo"></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col size="12">
+              <ion-item lines="full">
+                <ion-label position="stacked">Bajo el subsuelo</ion-label>
+                <ion-input type="tel" formControlName="piso_bajo_subsuelo"></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>  
+          
+          <ion-row>
+            <ion-col size="12">
+              <ion-item lines="full">
+                <ion-label position="stacked">Area de construcci&oacute;n</ion-label>
+                <ion-input type="tel" formControlName="piso_area_construccion"></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row> 
+          
+          <ion-row>
+            <ion-col size="12">
+              <ion-item lines="full">
+                <ion-label position="stacked">Adiciones</ion-label>
+                <ion-input type="text" inputmode="text" formControlName="piso_adiciones"></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>           
+
+        </ion-list>
+      </ion-accordion>   
+      
+      <!-- OCUPACION -->
+      <ion-accordion value="4" toggle-icon="arrow-down-circle">
+
+        <ion-item slot="header">
+          <ion-icon name="man" slot="start" color="success"></ion-icon>
+          <ion-label>Ocupaci&oacute;n</ion-label>
+        </ion-item>
+
+        <ion-list slot="content" class="ion-padding-start ion-padding-end">
+          
+          <ion-row>
+            <ion-col size="12">
+
+              <ng-container *ngIf="tipoOcupacionArr">
+                <ng-container formArrayName="tipo_ocupacion">
+                  <ion-radio-group [value]="dateSelected.selected_ocupacion">
+                    <ng-container [formGroupName]="i" *ngFor="let item of tipoOcupacionArr.controls; index as i">
+                      <ion-item>
+                        <small>{{ item.get('name').value }}</small>
+                        <ion-radio slot="end" (ionFocus)="activeCheckTipoOcupacion( $event,i )"
+                        [value]="item.get('code').value"></ion-radio> 
+                      </ion-item>
+                    </ng-container>
+                  </ion-radio-group>
+                </ng-container>
+              </ng-container>
+
+            </ion-col>
+          </ion-row>
+
+        </ion-list>
+      </ion-accordion>   
+      
+      <!-- RIESGOS GEOLOGICOS -->
+      <ion-accordion value="5" toggle-icon="arrow-down-circle">
+        <ion-item slot="header">
+          <ion-icon name="ban" slot="start" color="danger"></ion-icon>
+          <ion-label>Riesgos Geol&oacute;gicos</ion-label>
+        </ion-item>
+
+        <ion-list slot="content">
+          <ion-row>
+            <ion-col size="12">
+              <ion-row>
+                <ion-col size="6"></ion-col>
+                <ion-col size="2" *ngFor="let item of ['SI', 'NO', 'DNK']">
+                  <ng-container >
+                    <small> {{ item }} </small>
+                  </ng-container>
+                </ion-col>
+              </ion-row>
+
+              <ng-container *ngIf="riesgoGeologicoArr">
+                <ng-container formArrayName="riesgo_geologico">
+                  <ng-container [formGroupName]="i"
+                    *ngFor="let item of riesgoGeologicoArr.controls; index as i">
+                    <ion-radio-group [value]="getSelectedRiesgoGeologico( item )">
+                      <ion-item>
+                        <ng-container *ngFor="let options of item.get('options').value; index as x">
+                          <ion-radio slot="end" (ionFocus)="activeCheckRiesgoGeologico( $event,i, x )"
+                            [value]="options.name"></ion-radio>
+                        </ng-container>
+                        <small>{{ item.get('name').value }}</small>
+                      </ion-item>
+                    </ion-radio-group>
+                  </ng-container>
+                </ng-container>
+              </ng-container>
+            </ion-col>
+          </ion-row>
+
+        </ion-list>
+      </ion-accordion>     
+      
+      <!-- ADYACENCIA -->
+      <ion-accordion value="6" toggle-icon="arrow-down-circle">
+        <ion-item slot="header">
+          <ion-icon name="close-circle" slot="start" color="warning"></ion-icon>
+          <ion-label>Adyacencia</ion-label>
+        </ion-item>
+
+        <ion-list slot="content">
+          <ion-row>
+            <ion-col size="12">
+              <ion-row>
+                <ion-col size="6"></ion-col>
+                <ion-col size="2" *ngFor="let item of ['SI', 'NO', 'DNK']">
+                  <ng-container >
+                    <small> {{ item }} </small>
+                  </ng-container>
+                </ion-col>
+              </ion-row>
+
+              <ng-container *ngIf="adyacenciaArr">
+                <ng-container formArrayName="adyacencia">
+                  <ng-container [formGroupName]="i"
+                    *ngFor="let item of adyacenciaArr.controls; index as i">
+                    <ion-radio-group [value]="getSelectedAdyacencia( item )">
+                      <ion-item>
+                        <ng-container *ngFor="let options of item.get('options').value; index as x">
+                          <ion-radio slot="end" (ionFocus)="activeCheckAdyacencia( $event,i, x )"
+                            [value]="options.name"></ion-radio>
+                        </ng-container>
+                        <small>{{ item.get('name').value }}</small>
+                      </ion-item>
+                    </ion-radio-group>
+                  </ng-container>
+                </ng-container>
+              </ng-container>
+            </ion-col>
+          </ion-row>
+
+        </ion-list>
+      </ion-accordion>    
+      
+      <!-- IRREGULARIDADES -->
+      <ion-accordion value="7" toggle-icon="arrow-down-circle">
+        <ion-item slot="header">
+          <ion-icon name="close-circle" slot="start" color="warning"></ion-icon>
+          <ion-label>Irregularidades</ion-label>
+        </ion-item>
+
+        <ion-list slot="content">
+          <ion-row>
+            <ion-col size="12">
+              <ion-row>
+                <ion-col size="6"></ion-col>
+                <ion-col size="2" *ngFor="let item of ['SI', 'NO', 'DNK']">
+                  <ng-container >
+                    <small> {{ item }} </small>
+                  </ng-container>
+                </ion-col>
+              </ion-row>
+
+              <ng-container *ngIf="irregularidadesArr">
+                <ng-container formArrayName="irregularidad">
+                  <ng-container [formGroupName]="i"
+                    *ngFor="let item of irregularidadesArr.controls; index as i">
+                    <ion-radio-group [value]="getSelectedIrregularidad( item )">
+                      <ion-item>
+                        <ng-container *ngFor="let options of item.get('options').value; index as x">
+                          <ion-radio slot="end" (ionFocus)="activeCheckIrregularidad( $event,i, x )"
+                            [value]="options.name"></ion-radio>
+                        </ng-container>
+                        <small>{{ item.get('name').value }}</small>
+                      </ion-item>
+                    </ion-radio-group>
+                  </ng-container>
+                </ng-container>
+              </ng-container>
+            </ion-col>
+          </ion-row>
+
+        </ion-list>
+      </ion-accordion>       
+
+    </ion-accordion-group>
+
+  </form>
+</ion-content>

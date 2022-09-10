@@ -1,0 +1,46 @@
+[
+    {
+        "code": "ASAMBLEA",
+        "name": "Asamblea"
+    },
+    {
+        "code": "INDUSCTRIA",
+        "name": "Industria"
+    },
+    {
+        "code": "OTROS",
+        "name": "Otros"
+    },
+    {
+        "code": "COMERCIAL",
+        "name": "Comercial"
+    },
+    {
+        "code": "OFICINA",
+        "name": "Oficina"
+    },
+    {
+        "code": "ALMACEN",
+        "name": "Almacén"
+    },
+    {
+        "code": "ALBERGUE",
+        "name": "Albergue"
+    },
+    {
+        "code": "SERVICIO_EMERGENCIA",
+        "name": "Servicio de Emergencia"
+    },
+    {
+        "code": "EDUCACION",
+        "name": "Educación"
+    },
+    {
+        "code": "RESIDENCIAL",
+        "name": "Residencial #"
+    },
+    {
+        "code": "PUBLICO",
+        "name": "Público"
+    }              
+]

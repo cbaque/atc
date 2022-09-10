@@ -301,9 +301,190 @@
           </ion-row>
 
         </ion-list>
-      </ion-accordion>       
+      </ion-accordion>      
+      
+      <!-- CAIDAS EXTERIORES -->
+      <ion-accordion value="8" toggle-icon="arrow-down-circle">
+        <ion-item slot="header">
+          <ion-icon name="close-circle" slot="start" color="warning"></ion-icon>
+          <ion-label>Peligro de Caidas Exteriores</ion-label>
+        </ion-item>
+
+        <ion-list slot="content">
+          <ion-row>
+            <ion-col size="12">
+              <ion-row>
+                <ion-col size="6"></ion-col>
+                <ion-col size="2" *ngFor="let item of ['SI', 'NO', 'DNK']">
+                  <ng-container >
+                    <small> {{ item }} </small>
+                  </ng-container>
+                </ion-col>
+              </ion-row>
+
+              <ng-container *ngIf="caidaExteriorArr">
+                <ng-container formArrayName="caida_exterior">
+                  <ng-container [formGroupName]="i"
+                    *ngFor="let item of caidaExteriorArr.controls; index as i">
+                    <ion-radio-group [value]="getSelectedCaidaExterior( item )">
+                      <ion-item>
+                        <ng-container *ngFor="let options of item.get('options').value; index as x">
+                          <ion-radio slot="end" (ionFocus)="activeCheckCaidaExterior( $event,i, x )"
+                            [value]="options.name"></ion-radio>
+                        </ng-container>
+                        <small>{{ item.get('name').value }}</small>
+                      </ion-item>
+                    </ion-radio-group>
+                  </ng-container>
+                </ng-container>
+              </ng-container>
+            </ion-col>
+          </ion-row>
+
+        </ion-list>
+      </ion-accordion>  
+      
+      <!-- TIPOLOGIA SISTEMA ESTRUCTURAL -->
+      <ion-accordion value="9" toggle-icon="arrow-down-circle">
+
+        <ion-item slot="header">
+          <ion-icon name="trail-sign" slot="start" color="medium"></ion-icon>
+          <ion-label>Tipologia Sistema Estructural</ion-label>
+        </ion-item>
+
+        <ion-list slot="content" class="ion-padding-start ion-padding-end">
+          
+          <ion-row>
+            <ion-col size="12">
+
+              <ng-container *ngIf="tipologiaEstructuralArr">
+                <ng-container formArrayName="tipologia_estructural">
+                  <ion-radio-group [value]="dateSelected.tipologia_estructural">
+                    <ng-container [formGroupName]="i" *ngFor="let item of tipologiaEstructuralArr.controls; index as i">
+                      <ion-item>
+                        <small>{{ item.get('name').value }}</small>
+                        <ion-radio slot="end" (ionFocus)="activeCheckTipologiaEstructural( $event,i )"
+                        [value]="item.get('code').value"></ion-radio> 
+                      </ion-item>
+                    </ng-container>
+                  </ion-radio-group>
+                </ng-container>
+              </ng-container>
+
+            </ion-col>
+          </ion-row>
+
+        </ion-list>
+      </ion-accordion>    
+      
+      <ion-accordion value="10" toggle-icon="arrow-down-circle">
+
+        <ion-item slot="header">
+          <ion-icon name="trail-sign" slot="start" color="dark"></ion-icon>
+          <ion-label>Otros Riesgos</ion-label>
+        </ion-item>
+
+        <ion-list slot="content" class="ion-padding-start ion-padding-end">
+          <ion-title size="small" color="dark">Hay peligro que ameriten una evaluación estructurada detallada?</ion-title>
+          <ion-row>
+            <ion-col size="12">
+
+              <ng-container *ngIf="otrosRiesgosArr">
+                <ng-container formArrayName="otros_riesgos">
+                  <ion-radio-group [value]="dateSelected.otros_riesgos">
+                    <ng-container [formGroupName]="i" *ngFor="let item of otrosRiesgosArr.controls; index as i">
+                      <ion-item>
+                        <small>{{ item.get('name').value }}</small>
+                        <ion-radio slot="end" (ionFocus)="activeCheckOtrosRiesgos( $event,i )"
+                        [value]="item.get('code').value"></ion-radio> 
+                      </ion-item>
+                    </ng-container>
+                  </ion-radio-group>
+                </ng-container>
+              </ng-container>
+
+            </ion-col>
+          </ion-row>
+
+        </ion-list>
+      </ion-accordion>    
+      
+      <ion-accordion value="11" toggle-icon="arrow-down-circle">
+
+        <ion-item slot="header">
+          <ion-icon name="trail-sign" slot="start" color="dark"></ion-icon>
+          <ion-label>Acci&oacute;n Requerida</ion-label>
+        </ion-item>
+
+        <ion-list slot="content" class="ion-padding-start ion-padding-end">
+          <ion-title size="small" color="dark">Requiere evaluaci&oacute;n estructural detallada?</ion-title>
+          <ion-row>
+            <ion-col size="12">
+
+              <ng-container *ngIf="accionRequeridaEArr">
+                <ng-container formArrayName="accion_requerida_e">
+                  <ion-radio-group [value]="dateSelected.accion_requerida_e">
+                    <ng-container [formGroupName]="i" *ngFor="let item of accionRequeridaEArr.controls; index as i">
+                      <ion-item>
+                        <small>{{ item.get('name').value }}</small>
+                        <ion-radio slot="end" (ionFocus)="activeCheckAccionRequeridaE( $event,i )"
+                        [value]="item.get('code').value"></ion-radio> 
+                      </ion-item>
+                    </ng-container>
+                  </ion-radio-group>
+                </ng-container>
+              </ng-container>
+
+            </ion-col>
+          </ion-row>
+
+          <ion-title size="small" color="dark">Evaluaci&oacute;n no estructural detallada recomendada?</ion-title>
+          <ion-row>
+            <ion-col size="12">
+
+              <ng-container *ngIf="accionRequeridaNEArr">
+                <ng-container formArrayName="accion_requerida_ne">
+                  <ion-radio-group [value]="dateSelected.accion_requerida_ne">
+                    <ng-container [formGroupName]="i" *ngFor="let item of accionRequeridaNEArr.controls; index as i">
+                      <ion-item>
+                        <small>{{ item.get('name').value }}</small>
+                        <ion-radio slot="end" (ionFocus)="activeCheckAccionRequeridaNE( $event,i )"
+                        [value]="item.get('code').value"></ion-radio> 
+                      </ion-item>
+                    </ng-container>
+                  </ion-radio-group>
+                </ng-container>
+              </ng-container>
+
+            </ion-col>
+          </ion-row>
+
+        </ion-list>
+      </ion-accordion>         
 
     </ion-accordion-group>
 
+
+    <ion-row class="ion-padding">
+      <ion-col size="12">
+        <ion-button expand="full" 
+          type="submit" 
+          [disabled] = "docForm.invalid || loading"
+          size="large">
+          <ng-container *ngIf="loading; else ok">
+            Por favor espere...<ion-spinner name="bubbles"></ion-spinner>
+          </ng-container>
+          <ng-template #ok>
+            <ng-container *ngIf="id; else crear">
+              Actualizar Documento
+            </ng-container>
+            <ng-template #crear>
+              Crear Documento
+            </ng-template>
+          </ng-template>
+        </ion-button>
+      </ion-col>
+    </ion-row>
+    
   </form>
 </ion-content>

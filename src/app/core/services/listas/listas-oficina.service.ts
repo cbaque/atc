@@ -25,4 +25,26 @@ export class ListasOficinaService {
   getIrregularidades() {
     return this.http.get<any[]>('/assets/fake/irregularidades.json');
   }   
+
+  getCaidaExteriores() {
+    return this.http.get<any[]>('/assets/fake/caidas_exteriores.json');
+  } 
+  
+  getTipologiaSistemaEstructural() {
+    return this.http.get<any[]>('/assets/fake/tipologia_sistema_estructural.json');
+  } 
+
+  getOtrosRiesgos() {
+    return this.http.get<any[]>('/assets/fake/otros_riesgos.json');
+  }     
+
+  getAccionRequeridaE() {
+    return this.http.get<any[]>('/assets/fake/accion_requerida_estructurada.json');
+  }    
+  
+  getAccionRequeridaNE() {
+    return this.http.get<any[]>('/assets/fake/accion_requerida_no_estructurada.json');
+  }   
+
+
 }

@@ -1,0 +1,18 @@
+[
+    {
+        "code": "701",
+        "name": "Si, tipo de edificacion FEMA desconocido u otro edificio"
+    },
+    {
+        "code": "702",
+        "name": "Si, puntaje menor que el limite"
+    },
+    {
+        "code": "703",
+        "name": "Si, otros peligros presentes"
+    },
+    {
+        "code": "704",
+        "name": "No"
+    }                      
+]

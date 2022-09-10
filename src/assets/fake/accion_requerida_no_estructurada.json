@@ -1,0 +1,18 @@
+[
+    {
+        "code": "704-1",
+        "name": "Si, peligros no estructurales identificados que deben ser evaluados"
+    },
+    {
+        "code": "704-2",
+        "name": "No, existen peligros no estructurales que requieren mitigación, pero no necesita una evaluación detallada"
+    },
+    {
+        "code": "704-3",
+        "name": "No, no se identifican peligros no estructurales"
+    },
+    {
+        "code": "704-4",
+        "name": "DNK=no reconoce"
+    }                      
+]

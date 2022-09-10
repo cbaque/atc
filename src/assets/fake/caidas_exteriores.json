@@ -1,0 +1,92 @@
+[
+    {
+        "code": "CHIMENEAS",
+        "name": "Chimeneas sin lateral",
+        "options" : [
+            { 
+                "name" : "si",
+                "selected": false 
+            },
+            { 
+                "name" : "no",
+                "selected": false 
+            },
+            { 
+                "name" : "dnk",
+                "selected": false 
+            }
+        ]
+    },  
+    {
+        "code": "CHAPA_MADERA",
+        "name": "Reves. Pesado o de chapa de madera pesada",
+        "options" : [
+            { 
+                "name" : "si",
+                "selected": false 
+            },
+            { 
+                "name" : "no",
+                "selected": false 
+            },
+            { 
+                "name" : "dnk",
+                "selected": false 
+            }
+        ]
+    },
+    {
+        "code": "OTROS",
+        "name": "Otros",
+        "options" : [
+            { 
+                "name" : "si",
+                "selected": false 
+            },
+            { 
+                "name" : "no",
+                "selected": false 
+            },
+            { 
+                "name" : "dnk",
+                "selected": false 
+            }
+        ]
+    },
+    {
+        "code": "APENDICE",
+        "name": "Apendices",
+        "options" : [
+            { 
+                "name" : "si",
+                "selected": false 
+            },
+            { 
+                "name" : "no",
+                "selected": false 
+            },
+            { 
+                "name" : "dnk",
+                "selected": false 
+            }
+        ]
+    },
+    {
+        "code": "PARAPETOS",
+        "name": "Parapetos",
+        "options" : [
+            { 
+                "name" : "si",
+                "selected": false 
+            },
+            { 
+                "name" : "no",
+                "selected": false 
+            },
+            { 
+                "name" : "dnk",
+                "selected": false 
+            }
+        ]
+    }                                    
+]

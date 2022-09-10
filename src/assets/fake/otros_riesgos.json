@@ -1,0 +1,18 @@
+[
+    {
+        "code": "601",
+        "name": "Golpeo potencial( a menor que SL2>limite, si es conocido)"
+    },
+    {
+        "code": "602",
+        "name": "Riesgo de caida de edificios adyacentes mas altos"
+    },
+    {
+        "code": "603",
+        "name": "Riesgo geologico o tipo de Suelo F"
+    },
+    {
+        "code": "604",
+        "name": "Daño significativo/deterioro del sistema estructural"
+    }                      
+]

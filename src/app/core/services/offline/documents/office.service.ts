@@ -12,6 +12,7 @@ export class OfficeService {
   readonly dbTable: string = "documents_office";
   readonly dbTableDocsDetails: string = "documents_details_office";
   DOCUMENTS: Array <any> ;
+  DOCUMENTS_DETAILS: Array <any> ;
   
   constructor(
     private conOffline: ConectionService,
@@ -212,6 +213,28 @@ export class OfficeService {
               }
             }
             resolve( this.DOCUMENTS );
+          }
+          , ( e ) => {
+            resolve(e)
+          });
+        })
+        .catch(e => console.log('error general ', e));  
+    })    
+  }
+
+  public editDetails( id:number ) {
+    return new Promise( ( resolve, reject ) => {
+      this.conOffline.open()
+        .then((db: SQLiteObject) => {
+          db.executeSql(` SELECT * FROM ${ this.dbTableDocsDetails } WHERE document_id = ? `, [ id ])
+          .then( res => {
+            this.DOCUMENTS_DETAILS = [];
+            if ( res.rows.length > 0 ) {
+              for (let index = 0; index < res.rows.length; index++) {
+                this.DOCUMENTS_DETAILS.push(res.rows.item(index));
+              }
+            }
+            resolve( this.DOCUMENTS_DETAILS );
           }
           , ( e ) => {
             resolve(e)

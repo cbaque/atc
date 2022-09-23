@@ -150,7 +150,7 @@ export class CreateComponent implements OnInit {
     if ( this.dateSelected.riesgo_geologico ) {
       let value = this.dateSelected.riesgo_geologico.filter( res => data.controls.code.value === res.code_lista )[0];
 
-      if ( value.si ){
+      if ( value.yes ){
         res = 'si';
       } else if ( value.no ) {
         res = 'no'
@@ -195,7 +195,7 @@ export class CreateComponent implements OnInit {
     if ( this.dateSelected.adyacencia ) {
       let value = this.dateSelected.adyacencia.filter( res => data.controls.code.value === res.code_lista )[0];
 
-      if ( value.si ){
+      if ( value.yes ){
         res = 'si';
       } else if ( value.no ) {
         res = 'no'
@@ -240,7 +240,7 @@ export class CreateComponent implements OnInit {
     if ( this.dateSelected.irregularidad ) {
       let value = this.dateSelected.irregularidad.filter( res => data.controls.code.value === res.code_lista )[0];
 
-      if ( value.si ){
+      if ( value.yes ){
         res = 'si';
       } else if ( value.no ) {
         res = 'no'
@@ -285,7 +285,7 @@ export class CreateComponent implements OnInit {
     if ( this.dateSelected.caida_exterior ) {
       let value = this.dateSelected.caida_exterior.filter( res => data.controls.code.value === res.code_lista )[0];
 
-      if ( value.si ){
+      if ( value.yes ){
         res = 'si';
       } else if ( value.no ) {
         res = 'no'
@@ -447,12 +447,12 @@ export class CreateComponent implements OnInit {
         }
       });
   
-      // this.docSrv.editDetails( Number( this.id ) )
-      // .then( res => {
-      //   if ( res ) {
-      //     this.setDataDetails( res );
-      //   }
-      // })
+      this.docSrv.editDetails( Number( this.id ) )
+      .then( res => {
+        if ( res ) {
+          this.setDataDetails( res );
+        }
+      })
 
       // this.tmpImages = [];
       // this.tmpImagesSrv = [];
@@ -491,6 +491,52 @@ export class CreateComponent implements OnInit {
       piso_area_construccion          : res.area_construccion,
       piso_adiciones                  : res.adiciones
     });
+  }
+
+  setDataDetails( res: any ) {
+    debugger
+    let tipo_ocupacion = res.filter( res => res.type_lista === 'TIPO_OCUPACION' );
+    let riesgo_geologico = res.filter( res => res.type_lista === 'RIESGO_GEOLOGICO' );
+    let adyacencia = res.filter( res => res.type_lista === 'ADYACENCIA' );
+    let irregularidad = res.filter( res => res.type_lista === 'IRREGULARIDAD' );
+    let caida_exterior = res.filter( res => res.type_lista === 'CAIDA_EXTERIOR' );
+    let tipologia_estructural = res.filter( res => res.type_lista === 'TIPOLOGIA_ESTRUCTURAL' );
+    let otros_riesgos = res.filter( res => res.type_lista === 'OTROS_RIESGOS' );
+    let accion_requerida_e = res.filter( res => res.type_lista === 'ACCION_REQUERIDA_E' );
+    let accion_requerida_ne = res.filter( res => res.type_lista === 'ACCION_REQUERIDA_NE' );
+
+    if ( tipo_ocupacion ) {
+      let selected_tipo_ocupacion = this.getTiposSelected( tipo_ocupacion )
+      this.dateSelected.selected_ocupacion = selected_tipo_ocupacion;
+    }
+    if ( tipologia_estructural ) {
+      let selected_tipologia_estructural = this.getTiposSelected( tipologia_estructural )
+      this.dateSelected.tipologia_estructural = selected_tipologia_estructural;
+    }
+    if ( otros_riesgos ) {
+      let selected_otros_riesgos = this.getTiposSelected( otros_riesgos )
+      this.dateSelected.otros_riesgos = selected_otros_riesgos;
+    }
+    if ( accion_requerida_e ) {
+      let selected_accion_requerida_e = this.getTiposSelected( accion_requerida_e )
+      this.dateSelected.accion_requerida_e = selected_accion_requerida_e;
+    }
+    if ( accion_requerida_ne ) {
+      let selected_accion_requerida_ne = this.getTiposSelected( accion_requerida_ne )
+      this.dateSelected.accion_requerida_ne = selected_accion_requerida_ne;
+    }
+
+    this.dateSelected.riesgo_geologico = riesgo_geologico
+    this.dateSelected.adyacencia = adyacencia
+    this.dateSelected.irregularidad = irregularidad
+    this.dateSelected.caida_exterior = caida_exterior
+
+
+  }
+
+  getTiposSelected( data: any) {
+    let value = data.filter( res => res.value )[0];
+    return value ? value.code_lista : '';
   }
 
 }

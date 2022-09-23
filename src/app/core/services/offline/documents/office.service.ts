@@ -126,7 +126,7 @@ export class OfficeService {
 
         setTimeout(() => {
           this.messageSrv.isLoading.next(false);
-          this.router.navigate(["/main/tabs/tab1"]);
+          this.router.navigate(["/main/tabs/oficina-list"]);
         }, 2000);
 
 
@@ -197,5 +197,27 @@ export class OfficeService {
         })
         .catch(e => console.log('error general ', e));  
     })
+  }
+
+  public edit( id:number ) {
+    return new Promise( ( resolve, reject ) => {
+      this.conOffline.open()
+        .then((db: SQLiteObject) => {
+          db.executeSql(` SELECT * FROM ${ this.dbTable } WHERE id = ? `, [ id ])
+          .then( res => {
+            this.DOCUMENTS = [];
+            if ( res.rows.length > 0 ) {
+              for (let index = 0; index < res.rows.length; index++) {
+                this.DOCUMENTS.push(res.rows.item(index));
+              }
+            }
+            resolve( this.DOCUMENTS );
+          }
+          , ( e ) => {
+            resolve(e)
+          });
+        })
+        .catch(e => console.log('error general ', e));  
+    })    
   }
 }

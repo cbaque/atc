@@ -44,4 +44,8 @@ export class OficinaIndexComponent implements OnInit {
     this.index();
   }
 
+  edit( data: any ) {
+    this.router.navigate(["/main/tabs/oficina", { id: data.id }]);
+  }
+
 }

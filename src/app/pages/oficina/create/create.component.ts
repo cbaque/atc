@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { Camera, CameraOptions } from '@awesome-cordova-plugins/camera/ngx';
 import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
 import { ListasOficinaService } from 'src/app/core/services/listas/listas-oficina.service';
@@ -32,7 +33,8 @@ export class CreateComponent implements OnInit {
     private camera: Camera,
     private listaSrv: ListasOficinaService,
     private nativeStorage: NativeStorage,  
-    private docSrv: OfficeService  
+    private docSrv: OfficeService  ,
+    private route: ActivatedRoute,
   ) {
     this.dateSelected = {};
 
@@ -432,6 +434,63 @@ export class CreateComponent implements OnInit {
     });
 
 
+  }
+
+  ionViewDidEnter() {
+    // const id = this.route.snapshot.paramMap.get('id');
+    this.id = this.route.snapshot.paramMap.get('id');
+    if ( this.id ) {
+      this.docSrv.edit( Number( this.id ) )
+      .then( res => {
+        if ( res ) {
+          this.setData( res[0] );
+        }
+      });
+  
+      // this.docSrv.editDetails( Number( this.id ) )
+      // .then( res => {
+      //   if ( res ) {
+      //     this.setDataDetails( res );
+      //   }
+      // })
+
+      // this.tmpImages = [];
+      // this.tmpImagesSrv = [];
+
+      // this.docSrv.editPhotos( Number( this.id ) )
+      // .then( (res: any) => {
+      //   if ( res ) {
+      //     res.forEach( (element: any) => {
+      //       this.tmpImages.push( element.photo_local )
+      //     });
+      //   }
+      // })
+
+      // this.docSrv.editPhotosServer( Number( this.id ) )
+      // .then( (res: any) => {
+      //   if ( res ) {
+      //     res.forEach( (element: any) => {
+      //       this.tmpImagesSrv.push( element.photo_serve )
+      //     });
+      //   }
+      // })
+
+    }
+  }
+
+  setData(res: any) {
+    this.docForm.patchValue({
+      nombre_edificacion              : res.nombre_edificacion,
+      direccion_edificacion           : res.direccion_edificacion,
+      codigo_castratal                : res.codigo_castratal,
+      anio_construccion_edificacion   : res.anio_construccion,
+      anio_remodelacion_edificacion   : res.anio_remodelacion,
+      anio_normativa                  : res.anio_normativa,
+      piso_subsuelo                   : res.piso_sobre_subsuelo,
+      piso_bajo_subsuelo              : res.piso_bajo_subsuelo,
+      piso_area_construccion          : res.area_construccion,
+      piso_adiciones                  : res.adiciones
+    });
   }
 
 }

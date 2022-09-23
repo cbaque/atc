@@ -14,4 +14,8 @@ export class DocumentsOnService {
   public post(data: any) {
     return this.DataServ.postQuery<any>(`documents`, data);
   }  
+
+  public postOffice(data: any) {
+    return this.DataServ.postQuery<any>(`documents/office`, data);
+  } 
 }

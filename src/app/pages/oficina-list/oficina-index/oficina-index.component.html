@@ -1,0 +1,34 @@
+<app-header></app-header>
+<ion-content [fullscreen]="true">
+  <ion-list *ngIf="DOCUMENTS.length; else noData">
+
+    <ion-item-sliding *ngFor="let item of DOCUMENTS">
+      <ion-item (click)="edit( item )">
+        <ion-row>
+          <ion-col size="12"><ion-note>{{ item.nombre_edificacion }}</ion-note></ion-col>
+          <ion-col size="12"><ion-note><small>Creado: </small> {{ setFormatDate(item.date_created) }}</ion-note></ion-col>
+        </ion-row>
+        <ion-icon name="chevron-forward" slot="end"></ion-icon>
+
+      </ion-item>
+  
+      <ion-item-options side="end">
+        <ion-item-option color="primary"><ion-icon size="large" name="cloud-upload" (click)="upLoad( item.id )"></ion-icon></ion-item-option>
+        
+      </ion-item-options>
+
+    </ion-item-sliding>
+  </ion-list>
+
+  <ng-template #noData>
+    <ion-row>
+      <ion-col size="12" class="ion-text-center">
+        <ion-text color="dark">
+          <h6>Bienvenido, empiece a registrar nuevos documentos</h6>
+        </ion-text>
+      </ion-col>
+    </ion-row>
+    <img src="assets/images/no-data.svg" alt="nodatafound" class="ion-padding">
+  </ng-template>
+
+</ion-content>

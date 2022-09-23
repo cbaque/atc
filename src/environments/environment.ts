@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
   databaseOffline: 'act.db',
-  apiUrl: 'http://www.aptecowebhost.com/apteco-api/public/index.php/api/'
+  // apiUrl: 'http://www.aptecowebhost.com/apteco-api/public/index.php/api/'
+  apiUrl: 'http://192.168.100.151:8100/public/index.php/api/'
 };
 
 /*

@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Camera, CameraOptions } from '@awesome-cordova-plugins/camera/ngx';
+import { NativeStorage } from '@awesome-cordova-plugins/native-storage/ngx';
 import { ListasOficinaService } from 'src/app/core/services/listas/listas-oficina.service';
+import { OfficeService } from 'src/app/core/services/offline/documents/office.service';
 declare var window: any;
 @Component({
   selector: 'app-create',
@@ -23,11 +25,14 @@ export class CreateComponent implements OnInit {
   accionRequeridaNEArr          : FormArray;
   dateSelected;
   loading                       : boolean = false;
+  id: any;
   
   constructor(
     private formBuilder: FormBuilder,
     private camera: Camera,
-    private listaSrv: ListasOficinaService
+    private listaSrv: ListasOficinaService,
+    private nativeStorage: NativeStorage,  
+    private docSrv: OfficeService  
   ) {
     this.dateSelected = {};
 
@@ -67,8 +72,8 @@ export class CreateComponent implements OnInit {
       caida_exterior                  : this.formBuilder.array([]),
       tipologia_estructural           : this.formBuilder.array([]),
       otros_riesgos                   : this.formBuilder.array([]),
-      accion_requerida_e             : this.formBuilder.array([]),
-      accion_requerida_ne            : this.formBuilder.array([]),
+      accion_requerida_e              : this.formBuilder.array([]),
+      accion_requerida_ne             : this.formBuilder.array([]),
     });
   }
 
@@ -360,7 +365,6 @@ export class CreateComponent implements OnInit {
     this.accionRequeridaEArr = this.docForm.get('accion_requerida_e') as FormArray;
     this.listaSrv.getAccionRequeridaE().subscribe(
       (res: []) => {
-        debugger
         res.forEach( (element, index) => {
           this.accionRequeridaEArr.push(
             this.formBuilder.group({
@@ -411,6 +415,23 @@ export class CreateComponent implements OnInit {
     data.controls.selected.setValue( !value );
   }  
   
-  save() {}
+  save() {
+    this.nativeStorage.getItem('user').then( (res: any) => {
+      let user = Number ( res.id );
+      
+      // this.docForm.get('coordinates').patchValue(this.COORDENADAS);
+      // this.docForm.get('photos').patchValue( this.tmpImages )
+      // this.docForm.get('photos_server').patchValue( this.tmpImagesSrv )
+      console.log( this.docForm.value );
+
+      if ( this.id ) {
+        // this.docForm.update( this.docForm.value, Number( this.id ) )
+      } else {
+        this.docSrv.post( this.docForm.value, user );
+      }
+    });
+
+
+  }
 
 }

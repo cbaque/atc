@@ -24,6 +24,10 @@ const routes: Routes = [
         loadChildren: () => import('../oficina/oficina.module').then(m => m.OficinaModule)
       },
       {
+        path: 'oficina-list',
+        loadChildren: () => import('../oficina-list/oficina-list.module').then(m => m.OficinaListModule)
+      },      
+      {
         path: '',
         redirectTo: '/tabs/tab1',
         pathMatch: 'full'

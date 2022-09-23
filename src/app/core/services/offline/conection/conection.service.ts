@@ -11,7 +11,9 @@ export class ConectionService {
   readonly dbName: string = environment.databaseOffline;
   readonly dbTableUsers: string = "users";
   readonly dbTableDocs: string = "documents";
+  readonly dbTableDocsOffice: string = "documents_office";
   readonly dbTableDocsDetails: string = "documents_details";
+  readonly dbTableDocsDetailsOffice: string = "documents_details_office";
   readonly dbTablePhotos: string = "documents_photos";
 
   constructor(
@@ -80,16 +82,52 @@ export class ConectionService {
                       photo_local               TEXT,
                       photo_serve               TEXT
                     )`, [] )
-                    .then( () => console.log( 'Tablas creadas correctamente.' ))
-                    .catch( e => console.log( 'error crear tabla photos' ) )
+                    .then( () =>  {
+
+                      db.executeSql(
+                        `CREATE TABLE IF NOT EXISTS ${ this.dbTableDocsOffice } (
+                          id INTEGER PRIMARY KEY, 
+                          nombre_edificacion        varchar(255),
+                          direccion_edificacion     varchar(255),
+                          codigo_castratal          varchar(255),
+                          anio_construccion         INTEGER,
+                          anio_remodelacion         INTEGER,
+                          anio_normativa            INTEGER,
+                          piso_sobre_subsuelo       INTEGER,
+                          piso_bajo_subsuelo        INTEGER,
+                          area_construccion         INTEGER,
+                          adiciones                 varchar(255),
+                          date_created              NUMERIC,
+                          user_created              INTEGER                          
+                        )`, [] )
+                        .then(  () => {
+
+                          db.executeSql(
+                            `CREATE TABLE IF NOT EXISTS ${ this.dbTableDocsDetailsOffice } (
+                              id INTEGER PRIMARY KEY, 
+                              document_id               INTEGER,
+                              type_lista                varchar(10),
+                              code_lista                varchar(255),
+                              value                     INTEGER,
+                              observation               varchar(255),
+                              yes                       INTEGER,
+                              no                        INTEGER,
+                              dnk                       INTEGER                         
+                            )`, [] )
+                            .then( () => console.log( `tablas creadas correctamente`  ) )
+                            .catch( e => console.log( `error al crear la tabla detalles oficina`, e  ) )
+                        })
+                        .catch( e => console.log( `error al crear la tabla documentos oficina`, e  ) )
+                    })
+                    .catch( e => console.log( `error crear tabla photos`, e ) )
                 })
-                .catch( e => console.log('error crear table documents details', e) )
+                .catch( e => console.log(`error crear table documents details`, e) )
               })
-              .catch( e => console.log('error crear table documents', e) )
+              .catch( e => console.log(`error crear table documents`, e) )
             })
-            .catch(e => console.log('error crear base', e));
+            .catch(e => console.log(`error crear base`, e));
         })
-        .catch(e => console.log('error general ', e));
+        .catch(e => console.log(`error general`, e));
     })
   }
 

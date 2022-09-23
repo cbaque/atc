@@ -427,7 +427,7 @@ export class CreateComponent implements OnInit {
       console.log( this.docForm.value );
 
       if ( this.id ) {
-        // this.docForm.update( this.docForm.value, Number( this.id ) )
+        this.docSrv.update( this.docForm.value, Number( this.id ) )
       } else {
         this.docSrv.post( this.docForm.value, user );
       }
@@ -494,7 +494,6 @@ export class CreateComponent implements OnInit {
   }
 
   setDataDetails( res: any ) {
-    debugger
     let tipo_ocupacion = res.filter( res => res.type_lista === 'TIPO_OCUPACION' );
     let riesgo_geologico = res.filter( res => res.type_lista === 'RIESGO_GEOLOGICO' );
     let adyacencia = res.filter( res => res.type_lista === 'ADYACENCIA' );

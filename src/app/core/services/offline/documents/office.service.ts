@@ -243,4 +243,131 @@ export class OfficeService {
         .catch(e => console.log('error general ', e));  
     })    
   }
+
+  public update( data: any, id: number ) {
+    this.messageSrv.isLoading.next(true);
+    const dateNow: String = new Date().toISOString();
+
+    this.conOffline.open()
+    .then( ( db ) => {
+      db.executeSql(
+        `UPDATE ${ this.dbTable }
+        SET nombre_edificacion = '${ data.nombre_edificacion }', 
+        direccion_edificacion = '${ data.direccion_edificacion }', 
+        codigo_castratal = '${ data.codigo_castratal }',
+        anio_construccion = '${ data.anio_construccion_edificacion }',
+        anio_remodelacion = '${ data.anio_remodelacion_edificacion }',
+        anio_normativa = '${ data.anio_normativa }',
+        piso_sobre_subsuelo = '${ data.piso_subsuelo }',
+        piso_bajo_subsuelo = '${ data.piso_bajo_subsuelo }',
+        area_construccion = '${ data.piso_area_construccion }',
+        adiciones = '${ data.piso_adiciones }',
+        date_created = '${ dateNow }'
+        WHERE id = ${ id }`
+        ,[]
+      ).then( ( row: any ) => {
+
+        this.deleteDetails( id );
+        // this.deletePhotos( id );
+
+        // data.photos.forEach(element => {
+        //   this.postPhotos( element, id )
+        // });
+
+        // data.photos_server.forEach(element => {
+        //   this.postPhotosServer( element, id )
+        // });
+
+        data.tipo_ocupacion.forEach( res => {
+          this.postDetails( res , { id, type: 'TIPO_OCUPACION' } )
+        });
+
+        data.riesgo_geologico.forEach( res => {
+          this.postDetails( res , 
+          { 
+            id, 
+            type: 'RIESGO_GEOLOGICO', 
+            yes     : ( res.options ) ? res.options[0].selected : 0, 
+            no      : ( res.options ) ? res.options[1].selected : 0, 
+            dnk     : ( res.options ) ? res.options[2].selected : 0 
+          })
+        });     
+        
+        data.adyacencia.forEach( res => {
+          this.postDetails( res , 
+          { 
+            id, 
+            type: 'ADYACENCIA', 
+            yes     : ( res.options ) ? res.options[0].selected : 0, 
+            no      : ( res.options ) ? res.options[1].selected : 0, 
+            dnk     : ( res.options ) ? res.options[2].selected : 0 
+          })
+        });  
+        
+        data.irregularidad.forEach( res => {
+          this.postDetails( res , 
+          { 
+            id, 
+            type: 'IRREGULARIDAD', 
+            yes     : ( res.options ) ? res.options[0].selected : 0, 
+            no      : ( res.options ) ? res.options[1].selected : 0, 
+            dnk     : ( res.options ) ? res.options[2].selected : 0 
+          })
+        }); 
+        
+        data.caida_exterior.forEach( res => {
+          this.postDetails( res , 
+          { 
+            id, 
+            type: 'CAIDA_EXTERIOR', 
+            yes     : ( res.options ) ? res.options[0].selected : 0, 
+            no      : ( res.options ) ? res.options[1].selected : 0, 
+            dnk     : ( res.options ) ? res.options[2].selected : 0 
+          })
+        }); 
+        
+        data.tipologia_estructural.forEach( res => {
+          this.postDetails( res , { id, type: 'TIPOLOGIA_ESTRUCTURAL' } )
+        });  
+        
+        data.otros_riesgos.forEach( res => {
+          this.postDetails( res , { id, type: 'OTROS_RIESGOS' } )
+        });   
+        
+        data.accion_requerida_e.forEach( res => {
+          this.postDetails( res , { id, type: 'ACCION_REQUERIDA_E' } )
+        });  
+        
+        data.accion_requerida_ne.forEach( res => {
+          this.postDetails( res , { id, type: 'ACCION_REQUERIDA_NE' } )
+        });            
+
+        setTimeout(() => {
+          this.messageSrv.isLoading.next(false);
+          this.router.navigate(["/main/tabs/oficina-list"]);
+        }, 2000);
+
+
+      },( e ) => {
+        this.messageSrv.isLoading.next(false);
+        console.log('error', e)
+        alert( JSON.stringify(e.error))
+      });
+    }) 
+  }  
+
+  private deleteDetails( id: number ) {
+    this.conOffline.open()
+    .then( ( db ) => {
+      db.executeSql(
+        `DELETE FROM ${ this.dbTableDocsDetails } WHERE document_id = ${ id }`
+        ,[]
+      ).then( ( row: any ) => {
+        console.log( 'delete detalle', row )
+      },( e ) => {
+        console.log('error', e)
+        alert( JSON.stringify(e.error))
+      });
+    })
+  }
 }
